@@ -77,6 +77,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    def get_absolute_url(self):
+        return reverse('user', kwargs={'user_slug': self.slug})
+
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
