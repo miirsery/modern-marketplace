@@ -80,7 +80,8 @@ class Product(models.Model):
     color = models.ManyToManyField(
         'ProductColor',
         verbose_name='Цвета',
-        related_name='product_colors'
+        related_name='product_colors',
+        blank=True,
     )
 
     def __str__(self):
