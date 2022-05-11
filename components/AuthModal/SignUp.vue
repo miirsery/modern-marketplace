@@ -103,12 +103,12 @@
             placeholder="Enter an password..."
         />
       </div>
-      <button
+      <v-btn
           class="sign-up__button modal-button"
           @click="handleSendData"
       >
         Submit
-      </button>
+      </v-btn>
     </form>
   </div>
 </template>

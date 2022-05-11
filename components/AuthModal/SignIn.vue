@@ -1,5 +1,8 @@
 <script setup lang="ts">
   import { SignUpType } from "~/types/user.type";
+  import {useUserStore} from "~/store/user";
+
+  const user = useUserStore()
 
   const data = reactive<
       Partial<Omit<SignUpType,
@@ -9,33 +12,37 @@
     password: ''
   })
 
-  const saveToken = async (): Promise<void> => {
+  const saveToken = (token: string): void => {
     //...
     // await signIn(token)
+    document.cookie = token
   }
 
   const tokenCreate = async (): Promise<void> => {
-    const token = await fetch('/api/user/token-create', {
-      method: 'GET'
-    })
+   const token = await user.tokenCreate({
+     email: data.email,
+     password: data.password,
+   })
+
+    saveToken(token)
   }
 
 
   const handleSendData = async (): Promise<void> => {
     await tokenCreate()
 
-    await fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-        .then(r => r.json())
-        .then(r => console.log(r))
+    // await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     password: data.password,
+    //   }),
+    //   headers: {
+    //     'Content-type': 'application/json; charset=UTF-8',
+    //   },
+    // })
+    //     .then(r => r.json())
+    //     .then(r => console.log(r))
   }
 
 </script>
@@ -72,12 +79,12 @@
             placeholder="Enter an password..."
         />
       </div>
-      <button
+      <v-btn
           class="sign-in__button modal-button"
           @click="handleSendData"
       >
         Submit
-      </button>
+      </v-btn>
     </form>
   </div>
 </template>

@@ -7,24 +7,38 @@ export const useUserStore = defineStore('user', {
             email: null,
             username: null,
             avatar: null,
-        }
+        },
+        isAuthorized: false,
     }),
     getters: {},
     actions: {
-        async signUp(data) {
+        async signUp(data): Promise<void> {
             try {
-                this.user = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                this.user = await fetch('/api/user/register/users/', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
                     },
-                })
-                    .then(r => r.json())
-                console.log(this.user)
+                }).then(r => r.json())
             } catch (e) {
                 console.log(e)
             }
+        },
+        async tokenCreate(data): Promise<any> {
+            return await fetch('/api/user/token-create', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            }).then(r => r.json())
+        },
+
+        async signIn(token: string): Promise<void> {
+            await fetch('/api/user/authorization', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
         }
     }
 })

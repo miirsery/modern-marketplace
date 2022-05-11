@@ -15,9 +15,20 @@ export default defineNuxtConfig({
           ]
       }
     },
-    dirs: [
-        "~/components"
+    css: [
+        'vuetify/lib/styles/main.sass', 'mdi/css/materialdesignicons.min.css',
     ],
+    build: {
+        transpile: ['vuetify'],
+    },
+    dirs: [
+        "~/components",
+    ],
+    vite: {
+        define: {
+            'process.env.DEBUG': false,
+        },
+    },
     components: true,
     buildModules: ['@pinia/nuxt'],
 })

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import {storeToRefs, mapActions} from "pinia";
-import {useCounterStore} from "~/store/filters";
+import { storeToRefs, mapActions } from "pinia";
+import { useCounterStore } from "~/store/filters";
+import { useUserStore } from "~/store/user";
 const main = useCounterStore()
+const user = useUserStore()
+
 
 const authModalVisible = ref(false)
 const { counter, name } = storeToRefs(main)
@@ -37,6 +40,10 @@ main.$subscribe((mutation, state) => {
       {{ counter }}
         <common-header @toggle-modal="toggleModal"/>
         <slot></slot>
-        <auth-modal @toggle-modal="toggleModal" v-if="authModalVisible" />
+        <auth-modal
+            @toggle-modal="toggleModal"
+            v-if="authModalVisible
+             && !user.isAuthorized"
+        />
     </div>
 </template>

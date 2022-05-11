@@ -21,9 +21,8 @@
 <template>
   <div class="auth-modal" @click="handleToggleModal">
     <div class="auth-modal__wrapper" @click.stop>
-
-      <div class="auth-modal__actions">
-        <div class="auth-modal__buttons">
+      <div class="d-flex justify-space-between">
+        <div class="d-flex justify-center">
           <button
               v-for="(_, mode) in authMods"
               :key="mode"
@@ -72,16 +71,6 @@
 
   &__button {
     cursor: pointer;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__buttons {
-    display: flex;
-    justify-content: center;
   }
 
   &__button {

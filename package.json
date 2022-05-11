@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.1.9",
+    "js-cookie": "^3.0.1",
+    "mdi": "^2.2.43",
     "pinia": "^2.0.14",
-    "style-resources-loader": "^1.5.0"
+    "style-resources-loader": "^1.5.0",
+    "vuetify": "^3.0.0-beta.1"
   }
 }

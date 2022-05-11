@@ -22,9 +22,9 @@
           Go to stars
         </li>
       </ul>
-      <div class="common-header__avatar" @click="handleToggleModal">
+      <v-avatar large class="common-header__avatar" @click="handleToggleModal">
         <img src="../../assets/images/kuriyama.jpg" alt="logo" />
-      </div>
+      </v-avatar>
     </div>
   </div>
 </template>
