@@ -10,19 +10,42 @@
 
 <template>
   <div class="common-header">
-    <div class="common-header__logo">
-      <img src="" alt="logo" />
-    </div>
-    <ul class="common-header__menu">
-      <li class="common-header__item">
-        Account
-      </li>
-      <li class="common-header__item">
-        Go to stars
-      </li>
-    </ul>
-    <div class="common-header__avatar" @click="handleToggleModal">
-      <img src="" alt="avatar">
+    <div class="common-header__wrapper">
+      <div class="common-header__logo">
+        <img src="" alt="logo" />
+      </div>
+      <ul class="common-header__menu">
+        <li class="common-header__item">
+          Account
+        </li>
+        <li class="common-header__item">
+          Go to stars
+        </li>
+      </ul>
+      <div class="common-header__avatar" @click="handleToggleModal">
+        <img src="../../assets/images/kuriyama.jpg" alt="logo" />
+      </div>
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+.common-header {
+  &__wrapper {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+</style>
