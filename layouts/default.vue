@@ -1,13 +1,40 @@
 <script setup lang="ts">
-  const authModalVisible = ref(false)
+import {storeToRefs, mapActions} from "pinia";
+import {useCounterStore} from "~/store/filters";
+const main = useCounterStore()
 
-  const toggleModal = () => {
-    authModalVisible.value = !authModalVisible.value
-  }
+const authModalVisible = ref(false)
+const { counter, name } = storeToRefs(main)
+
+// const { addOne } = mapActions(useCounterStore, ['addOne'])
+const { addOne } = main
+
+function add(value: number) {
+  // main.$patch({
+  //   counter: counter.value + value
+  // })
+
+  main.$patch((state) => state.counter += value)
+}
+
+function reset() {
+  main.$reset()
+}
+
+const toggleModal = () => {
+  authModalVisible.value = !authModalVisible.value
+}
+
+main.$subscribe((mutation, state) => {
+  console.log(mutation)
+})
 
 </script>
 <template>
     <div class="container">
+      <button type="button" @click="reset">Reset</button>
+      <button type="button" @click="add(15)">Click me</button>
+      {{ counter }}
         <common-header @toggle-modal="toggleModal"/>
         <slot></slot>
         <auth-modal @toggle-modal="toggleModal" v-if="authModalVisible" />

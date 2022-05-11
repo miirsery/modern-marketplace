@@ -12,6 +12,8 @@
     "sass-loader": "^12.6.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.1.9",
+    "pinia": "^2.0.14",
     "style-resources-loader": "^1.5.0"
   }
 }

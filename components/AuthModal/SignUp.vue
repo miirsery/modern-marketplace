@@ -1,6 +1,9 @@
 <script setup lang="ts">
   import { SignUpType } from "~/types/user.type";
   import { validatePassword } from "~/utils/validate-data";
+  import {useUserStore} from "~/store/user";
+
+  const user = useUserStore()
 
   const data = reactive<SignUpType>({
     email: '',
@@ -16,19 +19,24 @@
       return
     }
 
-    await fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: data.email,
-        username: data.username,
-        password: data.password,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
+    user.signUp({
+      email: data.email,
+      username: data.username,
+      password: data.password,
     })
-    .then(r => r.json())
-    .then(r => console.log(r))
+    // await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     username: data.username,
+    //     password: data.password,
+    //   }),
+    //   headers: {
+    //     'Content-type': 'application/json; charset=UTF-8',
+    //   },
+    // })
+    // .then(r => r.json())
+    // .then(r => console.log(r))
   }
 
 </script>
