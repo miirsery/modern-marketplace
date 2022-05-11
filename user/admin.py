@@ -9,6 +9,7 @@ class UsersAdmin(admin.ModelAdmin):
     search_fields = ('id', 'username', 'email')
     list_editable = ('is_staff',)
     list_filter = ('is_active', 'is_staff')
+    prepopulated_fields = {'slug': ('username',)}
 
 
 admin.site.register(User, UsersAdmin)

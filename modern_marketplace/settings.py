@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'corsheaders',
     # local
     'user',
 ]
@@ -131,6 +132,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# CORS SETTINGS
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 STATIC_URL = 'static/'
 
 # Settings Media
@@ -161,4 +174,21 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+}
+
+# EMAIL SETTINGS
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('YOUR_EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+# DJOSER settings
+DJOSER = {
+    # the reset link
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SET_PASSWORD_RETYPE": True,
+    "SERIALISERS": {},
 }
