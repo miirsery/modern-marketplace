@@ -1,6 +1,4 @@
 <script setup lang="ts">
-    import AuthModal from "~/components/AuthModal/AuthModal.vue";
-
     useMeta({
         title: `Main page`,
         meta: [
@@ -21,7 +19,7 @@
 <template>
     <div class="nuxt__container">
       <common-header @toggle-modal="toggleModal"/>
-      <auth-modal v-if="authModalVisible" />
+      <auth-modal @toggle-modal="toggleModal" v-if="authModalVisible" />
     </div>
 </template>
     

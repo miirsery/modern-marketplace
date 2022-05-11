@@ -1,5 +1,13 @@
-[class*='container'] {
+[class*='__container'] {
   margin: 0 auto;
   padding: 0 15px;
   max-width: 1410px;
+}
+
+.modal {
+  &-label {}
+
+  &-input {}
+
+  &-item {}
 }

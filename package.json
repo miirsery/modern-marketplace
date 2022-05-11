@@ -10,5 +10,8 @@
     "nuxt": "3.0.0-rc.1",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0"
+  },
+  "dependencies": {
+    "style-resources-loader": "^1.5.0"
   }
 }
