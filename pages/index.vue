@@ -8,18 +8,7 @@
             },
         ],
     })
-
-    const authModalVisible = ref(false)
-
-    const toggleModal = () => {
-      authModalVisible.value = !authModalVisible.value
-    }
 </script>
-    
 <template>
-    <div class="nuxt__container">
-      <common-header @toggle-modal="toggleModal"/>
-      <auth-modal @toggle-modal="toggleModal" v-if="authModalVisible" />
-    </div>
 </template>
     

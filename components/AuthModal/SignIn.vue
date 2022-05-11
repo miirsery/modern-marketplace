@@ -9,7 +9,21 @@
     password: ''
   })
 
+  const saveToken = async (): Promise<void> => {
+    //...
+    // await signIn(token)
+  }
+
+  const tokenCreate = async (): Promise<void> => {
+    const token = await fetch('/api/user/token-create', {
+      method: 'GET'
+    })
+  }
+
+
   const handleSendData = async (): Promise<void> => {
+    await tokenCreate()
+
     await fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       body: JSON.stringify({
