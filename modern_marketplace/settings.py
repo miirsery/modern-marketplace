@@ -190,8 +190,6 @@ EMAIL_USE_SSL = False
 DJOSER = {
     # the reset link
     "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/{uid}/{token}",
-    "SEND_ACTIVATION_EMAIL": True,
     "SET_PASSWORD_RETYPE": True,
     "SERIALISERS": {},
-    "ACTIVATION_URL": '#/activate/{uid}/{token}',
 }
