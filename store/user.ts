@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
     actions: {
         async signUp(data): Promise<void> {
             try {
-                this.user = await fetch('/api/user/register/users/', {
+                this.user = await fetch('http://localhost:8000//api/user/register/users/', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
@@ -26,14 +26,14 @@ export const useUserStore = defineStore('user', {
             }
         },
         async tokenCreate(data): Promise<any> {
-            return await fetch('/api/user/token-create', {
+            return await fetch('http://localhost:8000//api/user/token-create', {
                 method: 'POST',
                 body: JSON.stringify(data),
             }).then(r => r.json())
         },
 
         async signIn(token: string): Promise<void> {
-            await fetch('/api/user/authorization', {
+            await fetch('http://localhost:8000//api/user/authorization', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
