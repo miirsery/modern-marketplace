@@ -12,6 +12,7 @@
     "sass-loader": "^12.6.0"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@pinia/nuxt": "^0.1.9",
     "js-cookie": "^3.0.1",
     "mdi": "^2.2.43",
