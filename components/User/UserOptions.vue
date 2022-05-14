@@ -54,7 +54,13 @@ const handleLogout = () => {
             :key="i"
         >
           <v-list-item-title>
-            <nuxt-link :to="`/user#${item.slug}`" @click="handleToggleModal">{{ item.title }}</nuxt-link>
+            <nuxt-link
+                class="text-blue-accent-4 user-options__link"
+                :to="`/user#${item.slug}`"
+                @click="handleToggleModal"
+            >
+              {{ item.title }}
+            </nuxt-link>
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
@@ -66,5 +72,9 @@ const handleLogout = () => {
 </template>
 
 <style scoped lang="scss">
-
+.user-options {
+  &__link {
+    text-decoration: none;
+  }
+}
 </style>

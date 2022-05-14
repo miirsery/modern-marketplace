@@ -45,14 +45,18 @@ export const useUserStore = defineStore('user', {
         },
 
         async resetPassword(email: any): Promise<void> {
-            console.log(email)
-            await fetch('http://localhost:8000/api/user/register/users/reset_password/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(email)
-            }).then(r => r.json())
+            try {
+                await fetch('http://localhost:8000/api/user/register/users/reset_password/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({email: 'sania.nika@mail.ru'}),
+                }).then(r => r.json())
+            } catch (e) {
+                console.log(e)
+            }
+
         }
     }
 })
