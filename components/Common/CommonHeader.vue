@@ -1,7 +1,13 @@
 <script setup lang="ts">
+  import {useUserStore} from "~/store/user";
+
+  const defaultAvatarPath = '../../assets/images/kuriyama.jpg'
+
   const emit = defineEmits([
     'toggleModal'
   ])
+
+  const user = useUserStore()
 
   const handleToggleModal = () => {
       emit('toggleModal')
@@ -25,7 +31,13 @@
         </li>
       </ul>
       <v-avatar large class="common-header__avatar" @click="handleToggleModal">
-        <img src="../../assets/images/kuriyama.jpg" alt="logo" />
+       <img
+           :src="user.user.avatar !== null
+            && user.user.avatar !== undefined
+            ? user.user.avatar
+            : defaultAvatarPath"
+            :alt="user.user.username"
+       />
       </v-avatar>
     </div>
   </div>
