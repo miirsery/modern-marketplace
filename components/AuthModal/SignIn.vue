@@ -1,48 +1,66 @@
 <script setup lang="ts">
-  import { SignUpType } from "~/types/user.type";
+import {ProfileUserType, SignUpType} from "~/types/user.type";
   import {useUserStore} from "~/store/user";
+
+  const emit = defineEmits([
+    'toggleModal'
+  ])
+
+  const closeModal = (): void => {
+    emit('toggleModal')
+  }
 
   const user = useUserStore()
 
   const data = reactive<
       Partial<Omit<SignUpType,
-          'username' | 'retryPassword'>>
+          'email' | 'retryPassword'>>
       >({
-    email: '',
+    username: '',
     password: ''
   })
 
-  const saveToken = (token: string): void => {
-    //...
-    // await signIn(token)
-    document.cookie = token
+  const safeStateInCookie = (avatar, id, username): void => {
+    if (!navigator.cookieEnabled) return
+    document.cookie = `user=avatar: ${avatar}, id: ${id}, username: ${username}`
+  }
+
+  const setUserData = (data: ProfileUserType): void => {
+    user.user.avatar = data.avatar
+    user.user.id = data.id
+    user.user.username = data.username
+
+    safeStateInCookie(data.avatar, data.id, data.username)
+  }
+
+  const signIn = async (token: string): Promise<void> => {
+    const userData = await user.signIn(token)
+
+    setUserData(userData)
+
+    user.isAuthorized = true
+
+    closeModal()
+  }
+
+  const saveToken = async (token: { token: string }): Promise<void> => {
+    document.cookie = `token=${(token.token)}`
+
+    await signIn(token.token)
   }
 
   const tokenCreate = async (): Promise<void> => {
    const token = await user.tokenCreate({
-     email: data.email,
+     username: data.username,
      password: data.password,
    })
 
-    saveToken(token)
+    await saveToken(token)
   }
 
 
   const handleSendData = async (): Promise<void> => {
     await tokenCreate()
-
-    // await fetch('https://jsonplaceholder.typicode.com/posts', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: data.email,
-    //     password: data.password,
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //   },
-    // })
-    //     .then(r => r.json())
-    //     .then(r => console.log(r))
   }
 
 </script>
@@ -51,15 +69,15 @@
     <form class="sign-in__from" @submit.prevent>
       <div class="sign-in__from-item modal-item">
         <label
-            for="signInEmail"
+            for="signInUsername"
             class="sign-in__input modal-label"
         >
-          Email
+          Username
         </label>
         <input
             type="text"
-            id="signInEmail"
-            v-model="data.email"
+            id="signInUsername"
+            v-model="data.username"
             class="sign-in__input modal-input"
             placeholder="Enter an email..."
         />

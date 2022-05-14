@@ -34,8 +34,8 @@
         </div>
         <button class="auth-modal__close" @click="handleToggleModal">X</button>
       </div>
-      <div class="auth-modal__body">
-        <sign-in v-if="authMode === 'SignIn'" />
+      <div class="auth-modal__body"  @close="handleToggleModal">
+        <sign-in v-if="authMode === 'SignIn'" @toggle-modal="handleToggleModal" />
         <sign-up v-else />
 <!--        <component :is="authMods[authMode]"/>-->
       </div>

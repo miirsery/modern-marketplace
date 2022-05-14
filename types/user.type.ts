@@ -4,3 +4,13 @@ export type SignUpType = {
     password: string | number,
     retryPassword: string | number
 }
+
+export type ProfileUserType = {
+    avatar: string,
+    id: number,
+    username: string,
+}
+
+export type ResetPasswordType = {
+    email: string
+}

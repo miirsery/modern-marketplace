@@ -1,7 +1,15 @@
 <script setup lang="ts">
   import { SignUpType } from "~/types/user.type";
   import { validatePassword } from "~/utils/validate-data";
-  import {useUserStore} from "~/store/user";
+  import { useUserStore } from "~/store/user";
+
+  const emit = defineEmits([
+    'toggleModal'
+  ])
+
+  const handleToggleModal = () => {
+    emit('toggleModal')
+  }
 
   const user = useUserStore()
 
@@ -19,24 +27,17 @@
       return
     }
 
-    user.signUp({
-      email: data.email,
-      username: data.username,
-      password: data.password,
-    })
-    // await fetch('https://jsonplaceholder.typicode.com/posts', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: data.email,
-    //     username: data.username,
-    //     password: data.password,
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //   },
-    // })
-    // .then(r => r.json())
-    // .then(r => console.log(r))
+    try {
+      await user.signUp({
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      })
+
+      handleToggleModal()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
 </script>

@@ -12,7 +12,9 @@
   <div class="common-header">
     <div class="common-header__wrapper">
       <div class="common-header__logo">
-        <img src="" alt="logo" />
+        <nuxt-link to="/" >
+          <img src="" alt="logo" />
+        </nuxt-link>
       </div>
       <ul class="common-header__menu">
         <li class="common-header__item">

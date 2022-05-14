@@ -14,7 +14,6 @@
   "dependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
     "@pinia/nuxt": "^0.1.9",
-    "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
     "mdi": "^2.2.43",
     "pinia": "^2.0.14",
