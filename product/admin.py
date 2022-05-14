@@ -4,6 +4,8 @@ from .models import (
     Category,
     ProductImage,
     ProductColor,
+    # SetCharacteristics,
+    # ItemCharacteristics,
 )
 
 
@@ -14,15 +16,14 @@ class ProductAdmin(admin.ModelAdmin):
         'updated_at', 'moderation',
         'guarantee', 'quantity',
         'year', 'status', 'category',
+        'slug',
     )
     list_display_links = ('id', 'title',)
     search_fields = ('id', 'title', 'category',)
     list_editable = ('moderation',)
     list_filter = ('moderation', 'status',)
-    prepopulated_fields = {'slug': ('title',)}
 
 
-# Register your models here.
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductImage)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
+from autoslug import AutoSlugField
 
 
 class Product(models.Model):
@@ -29,11 +30,8 @@ class Product(models.Model):
     discounted_price = models.FloatField(
         verbose_name='Скидка',
     )
-    slug = models.SlugField(
-        verbose_name='Слаг',
-        max_length=255,
-        unique=True,
-        db_index=True,
+    slug = AutoSlugField(
+        populate_from='title',
     )
     created_at = models.DateTimeField(
         verbose_name='Дата создания',
@@ -83,6 +81,7 @@ class Product(models.Model):
         related_name='product_colors',
         blank=True,
     )
+    characteristics = models.JSONField(null=True,)
 
     def __str__(self):
         return self.title

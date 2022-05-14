@@ -24,12 +24,6 @@ class UserUpdateApiView(generics.UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-class UserPasswordResetView(APIView):
-    def post(self, request, uid, token):
-        post_data = {'uid': uid, 'token': token}
-        return Response(post_data)
-
-
 class UserDeleteAvatarView(APIView):
     queryset = User.objects.filter(is_active=True)
     permission_classes = (IsAuthenticated,)
