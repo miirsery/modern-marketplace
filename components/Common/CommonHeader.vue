@@ -19,15 +19,18 @@
     <div class="common-header__wrapper">
       <div class="common-header__logo">
         <nuxt-link to="/" >
-          <img src="" alt="logo" />
+          <img class="common-header__logo-link" src="../../assets/images/logo.svg" alt="logo" />
         </nuxt-link>
       </div>
-      <ul class="common-header__menu">
-        <li class="common-header__item">
+      <ul class="common-header__menu d-flex">
+        <li class="common-header__item mr-10">
           Account
         </li>
-        <li class="common-header__item">
+        <li class="common-header__item mr-10">
           Go to stars
+        </li>
+        <li class="common-header__item">
+          <v-badge content='10' max='99' rounded="" color="primary">Cart</v-badge>
         </li>
       </ul>
       <v-avatar large class="common-header__avatar" @click="handleToggleModal">
@@ -48,11 +51,16 @@
     display: flex;
     align-content: center;
     justify-content: space-between;
+    padding: 20px 0;
+  }
+
+  &__logo {
+    width: 40px;
   }
 
   &__avatar {
     width: 40px;
-    height: 40px;
+    height: 40px;зх
 
     img {
       width: 100%;

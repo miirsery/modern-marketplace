@@ -10,5 +10,6 @@
     })
 </script>
 <template>
+  <main-hero />
 </template>
     

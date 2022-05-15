@@ -65,14 +65,16 @@ onMounted(() => {
 </script>
 <template>
     <div class="container">
+      <div class="wrapper">
         <common-header @toggle-modal="toggleModal" />
         <slot></slot>
         <auth-modal
-              @toggle-modal="toggleModal"
-              v-if="modalVisible
+            @toggle-modal="toggleModal"
+            v-if="modalVisible
                && !user.isAuthorized"
-          />
-       <user-options v-if="user.isAuthorized && modalVisible" @toggle-modal="toggleModal" />
+        />
+        <user-options v-if="user.isAuthorized && modalVisible" @toggle-modal="toggleModal" />
+      </div>
     </div>
 </template>
 <style scoped lang="scss">
@@ -80,5 +82,9 @@ onMounted(() => {
   margin: 0 auto;
   padding: 0 15px;
   max-width: 1410px;
+}
+
+.wrapper {
+  position: relative;
 }
 </style>

@@ -46,35 +46,43 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <div class="user-options">
-    <div class="user-options__wrapper">
-      <v-list>
-        <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
+  <nav class="user-options">
+    <ul class="user-options__menu">
+      <li
+          class="mb-5"
+          v-for="(item, i) in items"
+          :key="i"
+      >
+        <nuxt-link
+            class="text-blue-accent-4 user-options__link"
+            :to="`/user#${item.slug}`"
+            @click="handleToggleModal"
         >
-          <v-list-item-title>
-            <nuxt-link
-                class="text-blue-accent-4 user-options__link"
-                :to="`/user#${item.slug}`"
-                @click="handleToggleModal"
-            >
-              {{ item.title }}
-            </nuxt-link>
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title @click="handleLogout">Выход</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </div>
-  </div>
+          {{ item.title }}
+        </nuxt-link>
+      </li>
+      <li @click="handleLogout">Выход</li>
+    </ul>
+  </nav>
 </template>
 
 <style scoped lang="scss">
 .user-options {
+  &__menu {
+    position: absolute;
+    z-index: 120;
+    right: 0;
+    top: 80px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
   &__link {
     text-decoration: none;
+  }
+
+  &__menu {
+    z-index: 130;
   }
 }
 </style>
