@@ -1,16 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
-    ListCategegoryApiView,
-    ListProductApiView,
-    CreateProductAPIView,
-    UpdateProductAPIView,
+    ListCategoryApiView,
+    ProductViewSetAPI,
 )
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'product-info', ProductViewSetAPI)
 
 urlpatterns = [
-    path('list-category/', ListCategegoryApiView.as_view()),
-    path('list-product/', ListProductApiView.as_view()),
-    path('create-product/', CreateProductAPIView.as_view()),
-    path(
-        'update-product/<slug:slug>-<int:pk>/', UpdateProductAPIView.as_view()
-    ),
+    path('list-category/', ListCategoryApiView.as_view()),
+    path('v1/', include(router.urls)),
 ]

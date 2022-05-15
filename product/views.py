@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .serializers import (
     CategorySerializer,
     ProductSerializer,
@@ -11,21 +11,11 @@ from .models import (
 # Create your views here.
 
 
-class ListCategegoryApiView(generics.ListAPIView):
+class ProductViewSetAPI(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ListCategoryApiView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-
-
-class ListProductApiView(generics.ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-class CreateProductAPIView(generics.CreateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-class UpdateProductAPIView(generics.RetrieveUpdateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
