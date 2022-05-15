@@ -35,6 +35,7 @@
       </ul>
       <v-avatar large class="common-header__avatar" @click="handleToggleModal">
        <img
+           class="common-header__avatar-img"
            :src="user.user.avatar !== null
             && user.user.avatar !== undefined
             ? user.user.avatar
@@ -60,9 +61,9 @@
 
   &__avatar {
     width: 40px;
-    height: 40px;зх
+    height: 40px;
 
-    img {
+    &-img {
       width: 100%;
       height: 100%;
       border-radius: 50%;

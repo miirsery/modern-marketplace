@@ -56,7 +56,21 @@ export const useUserStore = defineStore('user', {
             } catch (e) {
                 console.log(e)
             }
+        },
 
+        async changeAvatar(data: any, token: any, userId: any): Promise<void> {
+            try {
+                await fetch(`/api/user/update/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    body: data
+                }).then(r => r.json())
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 })

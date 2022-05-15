@@ -3,6 +3,8 @@ import { storeToRefs, mapActions } from "pinia";
 import { useCounterStore } from "~/store/filters";
 import { useUserStore } from "~/store/user";
 import UserOptions from "~/components/User/UserOptions.vue";
+import { getCookie } from "~/utils/get-cookie";
+
 const main = useCounterStore()
 const user = useUserStore()
 
@@ -30,12 +32,9 @@ main.$subscribe((mutation, state) => {
   console.log(mutation)
 })
 
-const getCookie =  (name): void => {
-  const matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-
-  if (!document.cookie || !matches) return
+const getUserData = () => {
+  const matches = getCookie('user')
+  if (!matches) return
 
   const userValuesData = []
   const userKeysData = []
@@ -46,7 +45,6 @@ const getCookie =  (name): void => {
   })
 
   const userData = Object.assign(userKeysData.map((item, index) => ({ [item]: userValuesData[index] })))
-
   setUserData(userData)
 }
 
@@ -58,7 +56,7 @@ const setUserData = (userData) => {
 }
 
 onMounted(() => {
-  getCookie('user')
+  getUserData()
 })
 
 

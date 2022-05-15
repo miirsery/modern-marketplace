@@ -6,7 +6,7 @@ export const useCatalogStore = defineStore('products', {
     }),
     actions: {
         async getCatalog(): Promise<string[]> {
-           return await fetch('http://localhost:8000/api/product/list-product/', {
+           return await fetch('http://localhost:8000/api/product/list-category/', {
                method: 'GET',
                headers: {
                    'Content-Type': 'application/json'
