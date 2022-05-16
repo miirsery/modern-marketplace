@@ -44,6 +44,8 @@ import {ProfileUserType, SignUpType} from "~/types/user.type";
   }
 
   const saveToken = async (token: { token: string }): Promise<void> => {
+    if (!navigator.cookieEnabled) return
+
     document.cookie = `token=${(token.token)}`
 
     await signIn(token.token)

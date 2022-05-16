@@ -2,14 +2,19 @@
 import { storeToRefs, mapActions } from "pinia";
 import { useCounterStore } from "~/store/filters";
 import { useUserStore } from "~/store/user";
-import UserOptions from "~/components/User/UserOptions.vue";
 import { getCookie } from "~/utils/get-cookie";
+import CommonLocation from "~/components/Common/CommonLocation.vue";
+
 
 const main = useCounterStore()
 const user = useUserStore()
 
 
 const modalVisible = ref(false)
+const categoriesDropdownVisible = ref(false)
+const showCookies = ref(false)
+const locationModalVisible = ref(false)
+
 const { counter, name } = storeToRefs(main)
 
 // const { addOne } = mapActions(useCounterStore, ['addOne'])
@@ -26,6 +31,18 @@ function reset() {
 
 const toggleModal = () => {
   modalVisible.value = !modalVisible.value
+}
+
+const toggleDropdown = () => {
+  categoriesDropdownVisible.value = !categoriesDropdownVisible.value
+}
+
+const toggleCookies = () => {
+  showCookies.value = !showCookies.value
+}
+
+const toggleLocationModal = () => {
+  locationModalVisible.value = !locationModalVisible.value
 }
 
 main.$subscribe((mutation, state) => {
@@ -57,14 +74,22 @@ const setUserData = (userData) => {
 
 onMounted(() => {
   getUserData()
+  showCookies.value = true
 })
 
 
 </script>
 <template>
+  <div class="inner">
     <div class="container">
       <div class="wrapper">
-        <common-header @toggle-modal="toggleModal" />
+        <common-header
+            @toggle-modal="toggleModal"
+            @toggle-dropdown="toggleDropdown"
+            @toggle-location-modal="toggleLocationModal"
+        />
+        <common-location v-if="locationModalVisible" />
+        <categories-category-dropdown v-if="categoriesDropdownVisible" />
         <slot></slot>
         <auth-modal
             @toggle-modal="toggleModal"
@@ -74,15 +99,24 @@ onMounted(() => {
         <user-options v-if="user.isAuthorized && modalVisible" @toggle-modal="toggleModal" />
       </div>
     </div>
+    <common-cookies v-if="showCookies" @close="toggleCookies" />
+  </div>
 </template>
 <style scoped lang="scss">
 .container {
   margin: 0 auto;
   padding: 0 15px;
   max-width: 1410px;
+  width: 100%;
 }
 
 .wrapper {
   position: relative;
+}
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 </style>
