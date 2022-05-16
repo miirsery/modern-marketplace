@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(max_length=100, unique=True)
     avatar = ProcessedImageField(
-        upload_to='system_images',
+        upload_to='avatars',
         format='JPEG',
         verbose_name='Аватарка пользователя',
         blank=True,
