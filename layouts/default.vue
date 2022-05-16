@@ -74,7 +74,7 @@ const setUserData = (userData) => {
 
 onMounted(() => {
   getUserData()
-  showCookies.value = true
+  showCookies.value = localStorage.getItem('showCookie') !== 'true';
 })
 
 

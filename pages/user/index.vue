@@ -7,7 +7,7 @@ const user = useUserStore()
 const email = ref<ResetPasswordType>(null)
 const avatar = ref(null)
 
-// const token = getCookie('token')
+const token = getCookie('token')
 
 const handleSendEmail = (): void => {
   user.resetPassword({ email: email.value })
