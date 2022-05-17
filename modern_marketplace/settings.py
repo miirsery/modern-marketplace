@@ -33,7 +33,6 @@ DEBUG = os.getenv('DEBUG', default=True)
 
 ALLOWED_HOSTS = os.getenv('HOST')
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -195,4 +194,7 @@ DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/{uid}/{token}",
     "SET_PASSWORD_RETYPE": True,
     "SERIALISERS": {},
+    "EMAIL": {
+        'password_reset': 'modern_marketplace.email.MyResetEmail',
+    },
 }
