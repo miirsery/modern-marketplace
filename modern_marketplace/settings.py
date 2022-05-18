@@ -195,6 +195,6 @@ DJOSER = {
     "SET_PASSWORD_RETYPE": True,
     "SERIALISERS": {},
     "EMAIL": {
-        'password_reset': 'modern_marketplace.email.MyResetEmail',
+        'password_reset': 'modern_marketplace.email.CustumResetEmail',
     },
 }
