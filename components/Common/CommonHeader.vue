@@ -36,6 +36,14 @@
             </button>
           </li>
         </ul>
+        <ul class="common-header__menu">
+          <li class="common-header__item">
+            Помощь
+          </li>
+          <li class="common-header__item">
+            Пункты выдачи
+          </li>
+        </ul>
       </nav>
     </div>
     <div class="common-header__bottom">
@@ -89,6 +97,19 @@
     align-content: center;
     justify-content: space-between;
     padding: 20px 0;
+  }
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 
   &__logo {

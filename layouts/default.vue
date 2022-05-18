@@ -103,13 +103,6 @@ onMounted(() => {
   </div>
 </template>
 <style scoped lang="scss">
-.container {
-  margin: 0 auto;
-  padding: 0 15px;
-  max-width: 1410px;
-  width: 100%;
-}
-
 .wrapper {
   position: relative;
 }
