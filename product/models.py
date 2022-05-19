@@ -75,7 +75,7 @@ class Product(models.Model):
         on_delete=models.PROTECT,
         related_name='category_product',
     )
-    color = models.ManyToManyField(
+    colors = models.ManyToManyField(
         'ProductColor',
         verbose_name='Цвета',
         related_name='product_colors',

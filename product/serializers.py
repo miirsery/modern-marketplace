@@ -3,6 +3,7 @@ from .models import (
     Category,
     Product,
     ProductImage,
+    ProductColor,
     # SetCharacteristics,
     # ItemCharacteristics,
 )
@@ -16,14 +17,22 @@ class CategorySerializer(serializers.ModelSerializer):
         )
 
 
-class PhotoSerializer(serializers.ModelSerializer):
+class PhotoProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
         fields = ('image',)
 
 
+class ColorProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductColor
+        fields = ('color',)
+
+
 class ProductSerializer(serializers.ModelSerializer):
-    photo = PhotoSerializer(many=True, required=False)
+    photo = PhotoProductSerializer(many=True, required=False)
+    category = CategorySerializer()
+    colors = ColorProductSerializer(many=True, required=False)
 
     class Meta:
         model = Product
@@ -32,6 +41,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'price_now', 'price_old',
             'discounted_price', 'guarantee',
             'quantity', 'year', 'status', 'photo',
-            'category', 'color', 'characteristics',
+            'category', 'colors', 'characteristics',
             'slug',
         )
