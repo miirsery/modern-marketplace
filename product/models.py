@@ -101,6 +101,9 @@ class Category(models.Model):
         verbose_name='Категория',
         max_length=120
     )
+    # category_url = models.URLField(
+    #     unique=True,
+    # )
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'category_id': self.pk})

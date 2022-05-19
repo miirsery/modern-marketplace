@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import (
     Category,
     Product,
+    ProductImage,
     # SetCharacteristics,
     # ItemCharacteristics,
 )
@@ -15,7 +16,15 @@ class CategorySerializer(serializers.ModelSerializer):
         )
 
 
+class PhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ('image',)
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    photo = PhotoSerializer(many=True, required=False)
+
     class Meta:
         model = Product
         fields = (

@@ -13,7 +13,6 @@ class CustumResetEmail(BaseEmailMessage):
     template_name = "email/password_reset.html"
 
     def get_context_data(self):
-        # PasswordResetEmail can be deleted
         context = super().get_context_data()
 
         user = context.get("user")
