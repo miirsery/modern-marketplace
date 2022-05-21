@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from autoslug import AutoSlugField
+# from django.utils.text import slugify
 
 
 class Product(models.Model):
@@ -31,7 +32,7 @@ class Product(models.Model):
         verbose_name='Скидка',
     )
     slug = AutoSlugField(
-        populate_from='title',
+        populate_from='title'
     )
     created_at = models.DateTimeField(
         verbose_name='Дата создания',
@@ -97,24 +98,23 @@ class Product(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(
+    category_name = models.CharField(
         verbose_name='Категория',
         max_length=120
     )
-    # category_url = models.URLField(
-    #     unique=True,
-    # )
+    slug_category = AutoSlugField(
+        populate_from='category_name',
+    )
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'category_id': self.pk})
 
     def __str__(self):
-        return self.title
+        return self.category_name
 
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
-        ordering = ['title']
 
 
 class ProductImage(models.Model):

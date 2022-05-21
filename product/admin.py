@@ -4,8 +4,6 @@ from .models import (
     Category,
     ProductImage,
     ProductColor,
-    # SetCharacteristics,
-    # ItemCharacteristics,
 )
 
 

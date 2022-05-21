@@ -4,8 +4,6 @@ from .models import (
     Product,
     ProductImage,
     ProductColor,
-    # SetCharacteristics,
-    # ItemCharacteristics,
 )
 
 
@@ -13,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = (
-            'id', 'title',
+            'id', 'category_name', 'slug_category'
         )
 
 
