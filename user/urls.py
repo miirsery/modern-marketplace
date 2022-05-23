@@ -12,5 +12,5 @@ urlpatterns = [
     path('token-create/', obtain_jwt_token, name='obtain_jwt_token'),
     path('authorization/', UserCreateApiView.as_view()),
     path('update/<int:pk>/', UserUpdateApiView.as_view()),
-    path('delete/avatar/', UserDeleteAvatarView.as_view())
+    path('delete/avatar/', UserDeleteAvatarView.as_view()),
 ]

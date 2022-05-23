@@ -61,6 +61,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         verbose_name='Является админом'
     )
+    is_moderator = models.BooleanField(
+        default=False,
+        verbose_name='Является моддератором'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата регистрации'
