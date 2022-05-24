@@ -83,6 +83,13 @@ class Product(models.Model):
         blank=True,
     )
     characteristics = models.JSONField(null=True,)
+    basket = models.ManyToManyField(
+        'user.User',
+        default=None,
+        blank=True,
+        verbose_name='Добавить в корзину',
+        related_name='basket_products'
+    )
 
     def __str__(self):
         return self.title
