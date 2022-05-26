@@ -31,7 +31,7 @@ const handleSubmitFile = (): void => {
     <div id="users-settings">
       <form class="users-settings__form">
         <div class="mb-8 d-flex flex-md-column">
-          <label for="users-settings-email modal-label">Enter email for reset password</label>
+          <label for="users-settings-email">Enter email for reset password</label>
           <input
               id="users-settings-email"
               type="text"

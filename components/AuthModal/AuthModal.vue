@@ -53,7 +53,7 @@
   left: 0;
   bottom: 0;
   z-index: 100;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $color-modal-overlay;
 
   &__wrapper {
     position: absolute;
@@ -64,7 +64,7 @@
     width: 40%;
     height: 30%;
     z-index: 110;
-    background-color: #666666;
+    background-color: $color-modal-background;
     padding: 15px;
     transform: translate(-50%, -50%);
   }
