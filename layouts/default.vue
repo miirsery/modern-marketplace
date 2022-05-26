@@ -21,7 +21,6 @@ const { counter, name } = storeToRefs(main)
 const { addOne } = main
 
 function add(value: number) {
-
   main.$patch((state) => state.counter += value)
 }
 
@@ -88,7 +87,7 @@ onMounted(() => {
             @toggle-dropdown="toggleDropdown"
             @toggle-location-modal="toggleLocationModal"
         />
-        <common-location v-if="locationModalVisible" />
+        <common-location v-if="locationModalVisible" @close-modal="toggleLocationModal" />
         <categories-category-dropdown v-if="categoriesDropdownVisible" />
         <slot></slot>
         <auth-modal
