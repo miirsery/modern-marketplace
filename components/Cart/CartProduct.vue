@@ -6,13 +6,20 @@ const props = defineProps({
     type: Object as PropType<ProductType>
   }
 })
+
+const numbers = [
+    '1',
+    '2',
+    '3'
+]
+
 const productChecked = ref(false)
 
 </script>
 <template>
   <div class="cart-product">
     <v-row>
-      <div class="cart-product__left">
+      <v-col class="cart-product__left" cols="6">
         <v-col cols="1" class="cart-product__check">
           <v-checkbox
               v-model="productChecked"
@@ -30,7 +37,20 @@ const productChecked = ref(false)
             <div class="cart-product__favorite text-blue-accent-4">В избранное</div>
           </div>
         </v-col>
-      </div>
+      </v-col>
+      <v-col cols="3">
+        <div class="cart-product__price">
+          {{ props.product.price }}
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <div class="cart-product__count">
+          <v-select
+              :items="numbers"
+              :item-text="props.product.count"
+          />
+        </div>
+      </v-col>
     </v-row>
   </div>
 </template>
