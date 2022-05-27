@@ -1,3 +1,9 @@
+<script lang="ts">
+
+</script>
 <template>
-  {{ $route.params.category }}
+  <div class="category d-fled">
+    <category-filters />
+    <category-product :id="$route.params.category" />
+  </div>
 </template>
