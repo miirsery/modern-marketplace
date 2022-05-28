@@ -6,7 +6,6 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from imagekit.models import ProcessedImageField
-# Create your models here.
 
 
 class UserManager(BaseUserManager):

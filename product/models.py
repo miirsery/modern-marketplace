@@ -2,7 +2,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from autoslug import AutoSlugField
-# from django.utils.text import slugify
 
 
 class Product(models.Model):
@@ -20,16 +19,20 @@ class Product(models.Model):
         verbose_name='Описание',
         blank=True,
     )
-    price_now = models.FloatField(
+    price_now = models.IntegerField(
         verbose_name='Цена в текущий момент',
+        validators=[MinValueValidator(1), MaxValueValidator(2147483647)]
     )
-    price_old = models.FloatField(
+    price_old = models.IntegerField(
         verbose_name='Старая цена',
         blank=True,
         null=True,
+        validators=[MinValueValidator(1), MaxValueValidator(2147483647)]
     )
-    discounted_price = models.FloatField(
+    discounted_price = models.IntegerField(
         verbose_name='Скидка',
+        blank=True,
+        null=True,
     )
     slug = AutoSlugField(
         populate_from='title'
@@ -83,13 +86,6 @@ class Product(models.Model):
         blank=True,
     )
     characteristics = models.JSONField(null=True,)
-    basket = models.ManyToManyField(
-        'user.User',
-        default=None,
-        blank=True,
-        verbose_name='Добавить в корзину',
-        related_name='basket_products'
-    )
 
     def __str__(self):
         return self.title

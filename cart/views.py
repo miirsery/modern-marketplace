@@ -2,14 +2,19 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.response import Response
-from .models import Cart
+from .models import (
+    Cart,
+    CartProduct,
+)
 from product.models import Product
-from .serializers import AddToCartSerializer
-from product.serializers import ProductSerializer
-from rest_framework import status
+from .serializers import (
+    AddToCartSerializer,
+    ProductBasketSerializer,
+)
+# from .base.services import BasketСontroller
 
 
-class CartAddProduct(APIView):
+class CartAddProductApi(APIView):
     serializer_class = AddToCartSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -17,15 +22,21 @@ class CartAddProduct(APIView):
         user = request.user
         product_id = request.data.get('product_id')
         prod_obj = Product.objects.get(id=product_id)
-
-        if user in prod_obj.basket.all():
-            prod_obj.basket.remove(user)
-        else:
-            prod_obj.basket.add(user)
-
-        basket, created = Cart.objects.get_or_create(
-            user_name_id=user.id, product_name_id=product_id
+        count_products = request.data.get('count_product')
+        cart = Cart.objects.filter(user_name=user).first()
+        if not cart:
+            cart = Cart.objects.create(user_name=user)
+        cart_product, created = CartProduct.objects.get_or_create(
+            cart=cart, product_name=prod_obj, count_product=int(count_products)
         )
+        if created:
+            cart.products.add(cart_product)
+        return Response({"count_products": cart.products.count()})
 
-        basket.save()
-        return Response(prod_obj.basket.all().count())
+
+class CartApiList(generics.ListAPIView):
+    serializer_class = ProductBasketSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Cart.objects.filter(user_name=f"{self.request.user.id}")
