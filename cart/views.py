@@ -11,7 +11,8 @@ from .serializers import (
     AddToCartSerializer,
     ProductBasketSerializer,
 )
-# from .base.services import BasketСontroller
+from django.db.models import Sum
+from .base.services import BasketСontroller
 
 
 class CartAddProductApi(APIView):
@@ -40,3 +41,17 @@ class CartApiList(generics.ListAPIView):
 
     def get_queryset(self):
         return Cart.objects.filter(user_name=f"{self.request.user.id}")
+
+
+class CalculationCartApiList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        cart = Cart.objects.filter(user_name=user).first()
+        basket_сontroller = BasketСontroller()
+        basket_сontroller.calculation_final_basket_price(cart)
+        basket_сontroller.calculation_total_products(cart)
+        return Response(cart.products.values_list(
+            'final_price', flat=True
+        ).aggregate(Sum('final_price')))
