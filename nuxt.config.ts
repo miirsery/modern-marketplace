@@ -15,6 +15,17 @@ export default defineNuxtConfig({
           ]
       }
     },
+    router: {
+        extendRoutes(routes, resolve) {
+            routes.push(
+                {
+                    name: 'step1',
+                    path: '/order',
+                    component: resolve(__dirname, 'pages/order/index.vue')
+                },
+            )
+        }
+    },
     css: [
         'vuetify/lib/styles/main.sass',
         'mdi/css/materialdesignicons.min.css',

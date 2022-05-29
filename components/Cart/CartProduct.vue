@@ -7,12 +7,15 @@ const props = defineProps({
   }
 })
 
-const numbers = [
+
+const currentCount = ref('1')
+const numbers = ref([
     '1',
     '2',
-    '3'
-]
-
+    '3',
+    '4',
+    '5'
+])
 const productChecked = ref(false)
 
 </script>
@@ -46,9 +49,13 @@ const productChecked = ref(false)
       <v-col cols="3">
         <div class="cart-product__count">
           <v-select
+              v-model="currentCount"
               :items="numbers"
-              :item-text="props.product.count"
-          />
+              menu-props="auto"
+              hide-details
+              label="Select"
+              single-line
+          ></v-select>
         </div>
       </v-col>
     </v-row>

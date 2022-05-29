@@ -81,7 +81,12 @@ const products = [
           />
         </v-col>
         <v-col cols="4">
-          Перейти к оформлению
+          <nuxt-link to="/order">
+            Перейти к оформлению
+          </nuxt-link>
+          <div class="cart__content">
+            Cart on 513 р
+          </div>
         </v-col>
       </v-row>
     </v-form>
