@@ -21,6 +21,8 @@ class Product(models.Model):
     )
     price_now = models.IntegerField(
         verbose_name='Цена в текущий момент',
+        blank=True,
+        null=True,
         validators=[MinValueValidator(1), MaxValueValidator(2147483647)]
     )
     price_old = models.IntegerField(

@@ -43,8 +43,9 @@ class CartProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartProduct
         fields = (
-            'final_price', 'product_name',
-            'count_product', 'final_total_discount',
+            'id', 'final_price', 'product_name',
+            'count_product',
+            'final_total_discount',
             'final_price_not_discount',
         )
 
@@ -58,4 +59,12 @@ class ProductBasketSerializer(serializers.ModelSerializer):
             'products', 'user_name',
             'total_products', 'final_price_cart',
             'total_discount_price', 'total_not_discount_price'
+        )
+
+
+class CartProductUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartProduct
+        fields = (
+            'count_product',
         )

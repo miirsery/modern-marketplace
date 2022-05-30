@@ -10,6 +10,7 @@ from product.models import Product
 from .serializers import (
     AddToCartSerializer,
     ProductBasketSerializer,
+    CartProductUpdateSerializer,
 )
 from .base.services import BasketСontroller
 
@@ -25,9 +26,10 @@ class CartAddProductApi(APIView):
         count_products = request.data.get('count_product')
         cart = Cart.objects.filter(user_name=user).first()
         if not cart:
-            cart = Cart.objects.create(user_name=user)
+            cart = Cart.objects.create(user_name=user,)
         cart_product, created = CartProduct.objects.get_or_create(
-            cart=cart, product_name=prod_obj, count_product=int(count_products)
+            cart=cart, product_name=prod_obj,
+            count_product=int(count_products),
         )
         if created:
             cart.products.add(cart_product)
@@ -54,3 +56,9 @@ class CalculationCartApiList(APIView):
         basket_сontroller.total_discount_products(cart)
         basket_сontroller.total_price_not_discount_products(cart)
         return Response({"update_cart": True})
+
+
+class CartUpdateApiView(generics.UpdateAPIView):
+    queryset = CartProduct.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CartProductUpdateSerializer

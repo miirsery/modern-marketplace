@@ -24,10 +24,14 @@ class Cart(models.Model):
     total_discount_price = models.IntegerField(
         verbose_name='Общая сумма скидок',
         default=0,
+        null=True,
+        blank=True,
     )
     total_not_discount_price = models.IntegerField(
         verbose_name='Общая сумма цен без скидок',
         default=0,
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
