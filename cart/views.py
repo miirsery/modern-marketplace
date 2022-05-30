@@ -58,7 +58,13 @@ class CalculationCartApiList(APIView):
         return Response({"update_cart": True})
 
 
-class CartUpdateApiView(generics.UpdateAPIView):
+class CartUpdateCartProductApiView(generics.UpdateAPIView):
+    queryset = CartProduct.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CartProductUpdateSerializer
+
+
+class CartDeleteCartProductApiView(generics.DestroyAPIView):
     queryset = CartProduct.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = CartProductUpdateSerializer
