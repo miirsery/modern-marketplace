@@ -11,7 +11,6 @@ from .serializers import (
     AddToCartSerializer,
     ProductBasketSerializer,
 )
-from django.db.models import Sum
 from .base.services import BasketСontroller
 
 
@@ -50,8 +49,8 @@ class CalculationCartApiList(APIView):
         user = request.user
         cart = Cart.objects.filter(user_name=user).first()
         basket_сontroller = BasketСontroller()
-        basket_сontroller.calculation_final_basket_price(cart)
-        basket_сontroller.calculation_total_products(cart)
-        return Response(cart.products.values_list(
-            'final_price', flat=True
-        ).aggregate(Sum('final_price')))
+        basket_сontroller.final_basket_price(cart)
+        basket_сontroller.total_products(cart)
+        basket_сontroller.total_discount_products(cart)
+        basket_сontroller.total_price_not_discount_products(cart)
+        return Response({"update_cart": True})

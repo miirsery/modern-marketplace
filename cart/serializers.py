@@ -44,7 +44,8 @@ class CartProductSerializer(serializers.ModelSerializer):
         model = CartProduct
         fields = (
             'final_price', 'product_name',
-            'count_product',
+            'count_product', 'final_total_discount',
+            'final_price_not_discount',
         )
 
 
@@ -55,5 +56,6 @@ class ProductBasketSerializer(serializers.ModelSerializer):
         model = Cart
         fields = (
             'products', 'user_name',
-            'total_products', 'final_price_cart'
+            'total_products', 'final_price_cart',
+            'total_discount_price', 'total_not_discount_price'
         )

@@ -96,9 +96,8 @@ class Product(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if self.discounted_price:
-            self.price_now = self.price_now - self.discounted_price
-            super().save(*args, **kwargs)
+        self.price_now = self.price_old - self.discounted_price
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Product'
