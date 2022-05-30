@@ -58,7 +58,7 @@
       <common-search />
       <ul class="common-header__menu">
         <li class="common-header__item mr-10 d-flex flex-column align-center">
-          <nuxt-link to="/cart">
+          <nuxt-link :to="{ name: 'cart', path: '/cart' }">
             <v-badge content='2' max='99' rounded="" color="primary">
               <img class="common-header__icon" src="../../assets/icons/cart-icon.svg" alt="cart">
             </v-badge>

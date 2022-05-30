@@ -4,11 +4,19 @@ import {ProductType} from "~/types/product.tyoe";
 const props = defineProps({
   product: {
     type: Object as PropType<ProductType>
+  },
+  checkAll: {
+    type: Boolean
   }
 })
 
+const emit = defineEmits([
+    'check'
+])
 
+const productChecked = ref(false)
 const currentCount = ref('1')
+
 const numbers = ref([
     '1',
     '2',
@@ -16,13 +24,29 @@ const numbers = ref([
     '4',
     '5'
 ])
-const productChecked = ref(false)
+
+const handleMarkProduct = (value): void => {
+    emit('check', value)
+}
+
+watch(
+    (): boolean  => props.checkAll,
+    (current, _): void => {
+      productChecked.value = current
+    }
+)
+watch(
+    (): any => productChecked.value,
+    (old, _): void => {
+      handleMarkProduct(props.product.id)
+    }
+)
 
 </script>
 <template>
   <div class="cart-product">
     <v-row>
-      <v-col class="cart-product__left" cols="6">
+      <v-col class="cart-product__left" cols="8">
         <v-col cols="1" class="cart-product__check">
           <v-checkbox
               v-model="productChecked"
@@ -41,22 +65,25 @@ const productChecked = ref(false)
           </div>
         </v-col>
       </v-col>
-      <v-col cols="3">
-        <div class="cart-product__price">
-          {{ props.product.price }}
-        </div>
-      </v-col>
-      <v-col cols="3">
-        <div class="cart-product__count">
-          <v-select
-              v-model="currentCount"
-              :items="numbers"
-              menu-props="auto"
-              hide-details
-              label="Select"
-              single-line
-          ></v-select>
-        </div>
+      <v-col cols="4">
+        <v-row>
+          <v-col cols="6">
+            <div class="cart-product__price">
+              {{ props.product.price }}
+            </div>
+          </v-col>
+          <v-col cols="6">
+            <div class="cart-product__count">
+              <v-select
+                  v-model="currentCount"
+                  :items="numbers"
+                  menu-props="auto"
+                  hide-details
+                  single-line
+              />
+            </div>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </div>
@@ -93,6 +120,10 @@ const productChecked = ref(false)
 
   &__main {
     display: flex;
+  }
+
+  &__price {
+    text-align: center;
   }
 }
 </style>

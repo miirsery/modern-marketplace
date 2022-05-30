@@ -2,7 +2,7 @@
 const checkAll = ref(false)
 const valid = ref(false)
 
-const products = [
+const products = ref([
   {
     id: 1,
     image: 'https://cdn1.ozone.ru/s3/multimedia-o/wc100/6079536984.jpg',
@@ -13,7 +13,7 @@ const products = [
     count: 3,
   },
   {
-    id: 1,
+    id: 2,
     image: 'https://cdn1.ozone.ru/s3/multimedia-o/wc100/6079536984.jpg',
     title: 'Ремень Fuzhiniao',
     description: 'цвет коричневый, размер 120, 170гр',
@@ -22,7 +22,7 @@ const products = [
     count: 3,
   },
   {
-    id: 1,
+    id: 3,
     image: 'https://cdn1.ozone.ru/s3/multimedia-o/wc100/6079536984.jpg',
     title: 'Ремень Fuzhiniao',
     description: 'цвет коричневый, размер 120, 170гр',
@@ -31,7 +31,7 @@ const products = [
     count: 3,
   },
   {
-    id: 1,
+    id: 4,
     image: 'https://cdn1.ozone.ru/s3/multimedia-o/wc100/6079536984.jpg',
     title: 'Ремень Fuzhiniao',
     description: 'цвет коричневый, размер 120, 170гр',
@@ -40,7 +40,7 @@ const products = [
     count: 3,
   },
   {
-    id: 1,
+    id: 5,
     image: 'https://cdn1.ozone.ru/s3/multimedia-o/wc100/6079536984.jpg',
     title: 'Ремень Fuzhiniao',
     description: 'цвет коричневый, размер 120, 170гр',
@@ -48,7 +48,19 @@ const products = [
     loyalty: 868,
     count: 3,
   },
-]
+])
+
+let items = []
+const saveCheckedProducts = (value): void => {
+  items.push(value)
+}
+
+const handleDeleteAllProducts = (): void => {
+  if (checkAll) products.value = []
+  products.value.filter(product => {
+    console.log(product)
+  })
+}
 
 </script>
 
@@ -69,7 +81,13 @@ const products = [
               color="primary"
               class="mr-4"
           />
-          <div class="red--text">Delete checked</div>
+          <v-btn
+              color="error"
+              plain
+              @click="handleDeleteAllProducts"
+          >
+            Delete checked
+          </v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -78,6 +96,8 @@ const products = [
               v-for="product in products"
               :key="product.title"
               :product="product"
+              :checkAll="checkAll"
+              @check="saveCheckedProducts"
           />
         </v-col>
         <v-col cols="4">
