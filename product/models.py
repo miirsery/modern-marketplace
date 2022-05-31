@@ -88,6 +88,13 @@ class Product(models.Model):
         blank=True,
     )
     characteristics = models.JSONField(null=True,)
+    favorite_product = models.ManyToManyField(
+        'user.User',
+        default=None,
+        blank=True,
+        verbose_name='Добавить в избранное',
+        related_name='favorite_news'
+    )
 
     def __str__(self):
         return self.title
@@ -151,3 +158,21 @@ class ProductColor(models.Model):
 
     def __str__(self):
         return self.color
+
+
+class FavoriteUserProduct(models.Model):
+    product_in_favorite = models.ForeignKey(
+        'Product', on_delete=models.CASCADE,
+        verbose_name='Продукт добаленный в избранное',
+    )
+    favorite_product_user = models.ForeignKey(
+        'user.User', on_delete=models.CASCADE,
+        verbose_name='Пользователь добавивший в избранное'
+    )
+
+    def __str__(self):
+        return f'{self.favorite_product_user}: {self.product_in_favorite}'
+
+    class Meta:
+        verbose_name = 'Favorites news'
+        verbose_name_plural = 'Favorites news'

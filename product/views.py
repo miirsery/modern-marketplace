@@ -1,4 +1,8 @@
 from rest_framework import generics, viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from .serializers import (
     CategorySerializer,
     ProductSerializer,
@@ -6,8 +10,8 @@ from .serializers import (
 from .models import (
     Category,
     Product,
+    FavoriteUserProduct,
 )
-from rest_framework import permissions
 from .permissions import MyPermissions
 
 # imports for 2 options for the output of goods by category through filters
@@ -52,3 +56,24 @@ class ListApiProductByCategory(generics.ListAPIView):
 #     serializer_class = ProductSerializer
 #     filter_backends = [DjangoFilterBackend]
 #     filterset_fields = ['category__slug_category']
+
+
+class AddFavoriteProductApiView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        product_id = request.data.get('product_id')
+        prod_obj = Product.objects.get(id=product_id)
+        if user in prod_obj.favorite_product.all():
+            prod_obj.favorite_product.remove(user)
+        else:
+            prod_obj.favorite_product.add(user)
+        favorite_product, created = FavoriteUserProduct.objects.get_or_create(
+            favorite_product_user=user, product_in_favorite_id=product_id
+        )
+
+        favorite_product.save()
+        return Response({
+            "count_favorite_products": user.favorite_news.all().count()
+        })

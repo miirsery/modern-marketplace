@@ -4,6 +4,7 @@ from .models import (
     Category,
     ProductImage,
     ProductColor,
+    FavoriteUserProduct,
 )
 
 
@@ -26,3 +27,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductImage)
 admin.site.register(ProductColor)
+admin.site.register(FavoriteUserProduct)
