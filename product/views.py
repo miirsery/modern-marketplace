@@ -75,5 +75,13 @@ class AddFavoriteProductApiView(APIView):
 
         favorite_product.save()
         return Response({
-            "count_favorite_products": user.favorite_news.all().count()
+            "count_favorite_products": user.favorite_products.all().count()
         })
+
+
+class FavoriteProductApiList(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.favorite_products.all()

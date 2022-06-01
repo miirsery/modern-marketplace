@@ -93,7 +93,7 @@ class Product(models.Model):
         default=None,
         blank=True,
         verbose_name='Добавить в избранное',
-        related_name='favorite_news'
+        related_name='favorite_products'
     )
 
     def __str__(self):
@@ -162,7 +162,7 @@ class ProductColor(models.Model):
 
 class FavoriteUserProduct(models.Model):
     product_in_favorite = models.ForeignKey(
-        'Product', on_delete=models.CASCADE,
+        Product, on_delete=models.CASCADE,
         verbose_name='Продукт добаленный в избранное',
     )
     favorite_product_user = models.ForeignKey(
@@ -174,5 +174,5 @@ class FavoriteUserProduct(models.Model):
         return f'{self.favorite_product_user}: {self.product_in_favorite}'
 
     class Meta:
-        verbose_name = 'Favorites news'
-        verbose_name_plural = 'Favorites news'
+        verbose_name = 'Favorites product'
+        verbose_name_plural = 'Favorites products'
