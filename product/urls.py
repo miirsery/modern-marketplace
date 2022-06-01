@@ -5,6 +5,7 @@ from .views import (
     ListApiProductByCategory,
     AddFavoriteProductApiView,
     FavoriteProductApiList,
+    GetQuantityProductFavoriteApi,
 )
 from rest_framework import routers
 
@@ -22,5 +23,9 @@ urlpatterns = [
     path(
         'favorite/list-products/',
         FavoriteProductApiList.as_view()
+    ),
+    path(
+        'favorite/quantity-products/',
+        GetQuantityProductFavoriteApi.as_view()
     ),
 ]

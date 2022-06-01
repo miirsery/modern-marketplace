@@ -4,19 +4,19 @@ from .views import (
     CartApiList,
     CalculationCartApiList,
     CartUpdateCartProductApiView,
-    CartDeleteCartProductApiView,
+    DeleteCartProductApiView,
 )
 
 urlpatterns = [
     path('add/', CartAddProductApi.as_view()),
     path('list-products-cart/', CartApiList.as_view()),
-    path('update-final-price/', CalculationCartApiList.as_view()),
+    path('update-calculations-cart/', CalculationCartApiList.as_view()),
     path(
         'update-cart-products/<int:pk>/',
         CartUpdateCartProductApiView.as_view()
     ),
     path(
         'delete-cart-products/<int:pk>/',
-        CartDeleteCartProductApiView.as_view()
+        DeleteCartProductApiView.as_view()
     ),
 ]

@@ -69,7 +69,7 @@ class CartUpdateCartProductApiView(generics.UpdateAPIView):
     serializer_class = CartProductUpdateSerializer
 
 
-class CartDeleteCartProductApiView(generics.DestroyAPIView):
+class DeleteCartProductApiView(generics.DestroyAPIView):
     queryset = CartProduct.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = CartProductUpdateSerializer

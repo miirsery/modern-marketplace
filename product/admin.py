@@ -23,8 +23,15 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('moderation', 'status',)
 
 
+class FavoriteUserProductAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'product_in_favorite',
+        'favorite_product_user',
+    )
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductImage)
 admin.site.register(ProductColor)
-admin.site.register(FavoriteUserProduct)
+admin.site.register(FavoriteUserProduct, FavoriteUserProductAdmin)
