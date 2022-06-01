@@ -26,7 +26,7 @@ const numbers = ref([
 ])
 
 const handleMarkProduct = (value): void => {
-    emit('check', value)
+    emit('check', {id: value})
 }
 
 watch(

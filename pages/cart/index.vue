@@ -49,17 +49,34 @@ const products = ref([
     count: 3,
   },
 ])
+const filteredProducts = ref(products)
+let items = ref([])
 
-let items = []
+
 const saveCheckedProducts = (value): void => {
-  items.push(value)
+  items.value.push(value)
 }
 
 const handleDeleteAllProducts = (): void => {
-  if (checkAll) products.value = []
-  products.value.filter(product => {
-    console.log(product)
-  })
+  if (checkAll.value === true) products.value = []
+
+  filteredProducts.value = []
+
+  for (const item of items.value) {
+    const fp = products.value.filter(product => product.id !== item.id)
+
+    for (const i of fp) {
+      filteredProducts.value.push(i)
+    }
+  }
+
+  /*filteredProducts.value = products.value.filter(product => {
+    for (const item of items.value) {
+      if (item.id !== product.id) {
+        return product
+      }
+    }
+  })*/
 }
 
 </script>
@@ -93,7 +110,7 @@ const handleDeleteAllProducts = (): void => {
       <v-row>
         <v-col cols="8">
           <cart-product
-              v-for="product in products"
+              v-for="product in filteredProducts"
               :key="product.title"
               :product="product"
               :checkAll="checkAll"
