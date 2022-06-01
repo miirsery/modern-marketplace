@@ -1,3 +1,5 @@
 <template>
-  page not found
+  <div>
+    page not found
+  </div>
 </template>
