@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-const props = defineProps(['title'])
+import {useCartStore} from "~/store/cart";
 
+const props = defineProps(['title'])
+const store = useCartStore()
 const mockData = [
   {
     id: 1,
@@ -11,6 +13,16 @@ const mockData = [
 ]
 
 const rating = ref(4)
+
+const handleAddToCart = async (): Promise<void> => {
+  // const data = await store.addToCart(mockData)
+  store.books.push({
+    id: 1,
+    title: 'Нужные вещи | Кинг Стивен',
+    image: 'https://cdn1.ozone.ru/s3/multimedia-x/wc1200/6009443841.jpg',
+    price: 599
+  })
+}
 
 </script>
 
@@ -38,6 +50,7 @@ const rating = ref(4)
           class="product__add"
           depressed
           color="primary"
+          @click="handleAddToCart"
       >
         Add to cart
       </v-btn>
