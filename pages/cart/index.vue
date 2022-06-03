@@ -52,31 +52,12 @@ const products = ref([
 const filteredProducts = ref(products)
 let items = ref([])
 
-
 const saveCheckedProducts = (value): void => {
-  items.value.push(value)
+  items.value.push({product: value.product, checked: value.checked})
 }
 
 const handleDeleteAllProducts = (): void => {
-  if (checkAll.value === true) products.value = []
-
-  filteredProducts.value = []
-
-  for (const item of items.value) {
-    const fp = products.value.filter(product => product.id !== item.id)
-
-    for (const i of fp) {
-      filteredProducts.value.push(i)
-    }
-  }
-
-  /*filteredProducts.value = products.value.filter(product => {
-    for (const item of items.value) {
-      if (item.id !== product.id) {
-        return product
-      }
-    }
-  })*/
+  if (checkAll.value === true) filteredProducts.value = []
 }
 
 </script>
@@ -114,7 +95,7 @@ const handleDeleteAllProducts = (): void => {
               :key="product.title"
               :product="product"
               :checkAll="checkAll"
-              @check="saveCheckedProducts"
+              @checked-product="saveCheckedProducts"
           />
         </v-col>
         <v-col cols="4">

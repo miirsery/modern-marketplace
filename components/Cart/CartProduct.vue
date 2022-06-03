@@ -11,7 +11,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-    'check'
+    'checked-product'
 ])
 
 const productChecked = ref(false)
@@ -25,8 +25,8 @@ const numbers = ref([
     '5'
 ])
 
-const handleMarkProduct = (value): void => {
-    emit('check', {id: value})
+const handleMarkProduct = (value, checked): void => {
+    emit('checked-product', { product: value, checked })
 }
 
 watch(
@@ -37,8 +37,8 @@ watch(
 )
 watch(
     (): any => productChecked.value,
-    (old, _): void => {
-      handleMarkProduct(props.product.id)
+    (checked, _): void => {
+      handleMarkProduct(props.product, checked)
     }
 )
 
