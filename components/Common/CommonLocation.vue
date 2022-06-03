@@ -27,7 +27,6 @@ const options = {
 };
 
 const getCities = async (): Promise<any> => {
-  console.log('change')
   return fetch(url, {
     method: "POST",
     mode: "cors",
