@@ -58,6 +58,14 @@
       <common-search />
       <ul class="common-header__menu">
         <li class="common-header__item mr-10 d-flex flex-column align-center">
+          <nuxt-link :to="{ name: 'favorite', path: '/favorite' }">
+            <v-badge content='3' max='99' rounded="" color="primary">
+              <img class="common-header__icon" src="../../assets/icons/favorite-icon.svg" alt="favorite">
+            </v-badge>
+            <p class="common-header__item-text">Favorite</p>
+          </nuxt-link>
+        </li>
+        <li class="common-header__item mr-10 d-flex flex-column align-center">
           <nuxt-link :to="{ name: 'cart', path: '/cart' }">
             <v-badge content='2' max='99' rounded="" color="primary">
               <img class="common-header__icon" src="../../assets/icons/cart-icon.svg" alt="cart">
