@@ -1,11 +1,8 @@
 <script setup lang="ts">
-const cities = [
-    'Новосибирск',
-    'Омск',
-    'Москва',
-    'Барнаул'
-]
+import {onMounted} from "@vue/runtime-core";
 
+
+const cities = ref([])
 const emit = defineEmits([
     'closeModal'
 ])
@@ -13,6 +10,50 @@ const emit = defineEmits([
 const handleCloseModal = () => {
   emit('closeModal')
 }
+
+const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+const token = 'fede71f2df7a3314f6a6b8de7b7e8e3f420157be';
+const query = ref('');
+
+const options = {
+  method: "POST",
+  mode: "cors",
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Token " + token
+  },
+  body: JSON.stringify({query: query.value})
+};
+
+const getCities = async (): Promise<any> => {
+  console.log('change')
+  return fetch(url, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Token " + token
+    },
+    body: JSON.stringify({query: query.value})
+  })
+      .then(response => response.json())
+      .then(result => {
+        cities.value = result.suggestions
+      })
+      .catch(error => console.log("error", error));
+}
+
+watch(() => query.value,
+    async () => {
+      await getCities()
+    }
+)
+
+onMounted(async (): Promise<void> => {
+  await getCities()
+})
 
 </script>
 
@@ -23,10 +64,15 @@ const handleCloseModal = () => {
           <h2 class="common-location__title">Choose a city</h2>
           <div class="common-location__close" @click="handleCloseModal">X</div>
       </div>
-      <input type="text" class="modal-input" placeholder="Start typing a city..."/>
+      <input
+          v-model="query"
+          type="text"
+          class="modal-input"
+          placeholder="Start typing a city..."
+      />
       <ul class="common-location__content">
         <li class="common-location__city" v-for="city in cities" :key="city">
-          {{ city }}
+          {{ city.value }}
         </li>
       </ul>
     </div>
