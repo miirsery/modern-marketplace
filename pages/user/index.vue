@@ -2,15 +2,18 @@
 import {useUserStore} from "~/store/user";
 import {ResetPasswordType} from "~/types/user.type";
 import {getCookie} from "~/utils/get-cookie";
+import SuccessSendingEmail from "~/components/User/Dialogs/SuccessSendingEmail.vue";
 const user = useUserStore()
 
 const email = ref<ResetPasswordType>(null)
 const avatar = ref(null)
+const isVisible = ref(false)
 
-const token = getCookie('token')
+// const token = getCookie('token')
 
 const handleSendEmail = (): void => {
-  user.resetPassword({ email: email.value })
+  isVisible.value = true
+  // user.resetPassword({ email: email.value })
 }
 
 const handleFileUpload = (e): void => {
@@ -21,8 +24,8 @@ const handleSubmitFile = (): void => {
   const formData = new FormData()
   formData.append('username', user.user.username)
   formData.append('avatar', avatar.value)
-  console.log('click')
-  user.changeAvatar(formData, token[1], user.user.id)
+  isVisible.value = true
+  // user.changeAvatar(formData, token[1], user.user.id)
 }
 
 </script>
@@ -52,5 +55,6 @@ const handleSubmitFile = (): void => {
         </v-btn>
       </form>
     </div>
+    <success-sending-email :visible="isVisible" @close="isVisible = false" />
   </div>
 </template>
