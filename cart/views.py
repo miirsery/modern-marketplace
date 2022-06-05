@@ -25,13 +25,13 @@ class CartAddProductApi(APIView):
         prod_obj = Product.objects.get(id=product_id)
         count_products = request.data.get('count_product')
         cart = Cart.objects.filter(user_name=user).first()
+        if not cart:
+            cart = Cart.objects.create(user_name=user,)
         cart_products_all_title = cart.products.all().values_list(
             'product_name__title', flat=True
         )
         if prod_obj.title in cart_products_all_title:
             return Response({"error": "Уже имееться в корзине"})
-        if not cart:
-            cart = Cart.objects.create(user_name=user,)
         cart_product, created = CartProduct.objects.get_or_create(
             cart=cart, product_name=prod_obj,
             count_product=int(count_products),

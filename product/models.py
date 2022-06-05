@@ -23,7 +23,6 @@ class Product(models.Model):
         verbose_name='Цена в текущий момент',
         blank=True,
         null=True,
-        validators=[MinValueValidator(1), MaxValueValidator(2147483647)]
     )
     price_old = models.IntegerField(
         verbose_name='Старая цена',
@@ -35,6 +34,7 @@ class Product(models.Model):
         verbose_name='Скидка',
         blank=True,
         null=True,
+        validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
     )
     slug = AutoSlugField(
         populate_from='title'
