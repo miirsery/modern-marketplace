@@ -19,8 +19,8 @@
 
 </script>
 <template>
-  <div class="auth-modal" @click="handleToggleModal">
-    <div class="auth-modal__wrapper" @click.stop>
+  <div class="auth-modal" @mousedown="handleToggleModal">
+    <div class="auth-modal__wrapper" @mousedown.stop>
       <div class="d-flex justify-space-between">
         <div class="d-flex justify-center">
           <button
