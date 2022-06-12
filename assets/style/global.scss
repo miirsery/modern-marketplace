@@ -1,0 +1,38 @@
+.container {
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+    max-width: 1410px;
+}
+
+.modal {
+    &-label {
+        background-color: #000;
+    }
+
+    &-input {
+        outline: none;
+        border-bottom: 1px solid $color-border;
+    }
+}
+
+.mb-20 {
+    margin-bottom: 20px !important;
+}
+
+.mt-20 {
+    margin-top: 20px !important;
+}
+
+.mr-12 {
+    margin-right: 12px !important;
+}
+
+.mr-12 {
+    margin-left: 12px !important;
+}
+
+.jc-flex-end {
+    justify-content: flex-end;
+}
+
