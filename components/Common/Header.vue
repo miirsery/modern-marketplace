@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 const emit = defineEmits([
     'openLocation',
-    'openCategories'
+    'openCategories',
+    'openAuthModal'
 ])
 const handleOpenLocation = () => {
   emit('openLocation')
@@ -9,6 +10,10 @@ const handleOpenLocation = () => {
 
 const handleShowCategories = () => {
   emit('openCategories')
+}
+
+const handleShowAuthModal = () => {
+  emit('openAuthModal')
 }
 </script>
 <template>
@@ -38,11 +43,9 @@ const handleShowCategories = () => {
      <el-col :span="8">
        <el-row class="jc-flex-end">
          <el-col :span="4">
-           <div class="header__profile">
-             <nuxt-link :to="'/'">
+           <el-button class="header__profile" @click="handleShowAuthModal">
                <img src="../../assets/images/kuriyama.jpg" alt="profile" />
-             </nuxt-link>
-           </div>
+           </el-button>
          </el-col>
          <el-col :span="4">
            <div class="header__icon">
@@ -73,10 +76,12 @@ const handleShowCategories = () => {
 </template>
 <style lang="scss">
 .header {
-  &__search {
+  &__search,
+  &__profile {
     background: none;
     border: none;
     outline: none;
+    padding: 0;
 
     &-icon {
       width: 24px;

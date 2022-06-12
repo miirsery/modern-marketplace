@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const isLocationModalVisible  = ref(false)
 const isCategoriesVisible = ref(false)
+const isAuthModalVisible = ref(false)
 
 const toggleModal = (): void => {
     // ...
@@ -12,6 +13,10 @@ const toggleLocationModal = (): void => {
 
 const toggleCategoriesVisible = (): void => {
   isCategoriesVisible.value = !isCategoriesVisible.value
+}
+
+const toggleAuthModalVisible = (): void => {
+  isAuthModalVisible.value = !isAuthModalVisible.value
 }
 </script>
 
@@ -26,11 +31,16 @@ const toggleCategoriesVisible = (): void => {
               :is-visible="isCategoriesVisible"
               @close-categories="toggleCategoriesVisible"
           />
+          <lazy-user-auth
+              :visible="isAuthModalVisible"
+              @change-state="toggleAuthModalVisible"
+          />
             <div class="wrapper">
                  <common-header
                     @toggle-modal="toggleModal"
                     @open-location="toggleLocationModal"
                     @open-categories="toggleCategoriesVisible"
+                    @open-auth-modal="toggleAuthModalVisible"
                 />
                 <slot></slot>
             </div>

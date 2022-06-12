@@ -8,22 +8,30 @@ const props = defineProps({
   }
 })
 
+const categories = ref([])
+
 const emit = defineEmits([
     'closeCategories'
 ])
 
 const handleCloseCategories = () => {
+  console.log('emit')
   emit('closeCategories')
 }
 
 const getCategories = async () => {
-  const  data = await categoriesApi.getCategories()
-  console.log(data)
+  const [error, data] = await categoriesApi.getCategories()
+  categories.value = data
 }
 
-onMounted(() => {
-  getCategories()
-})
+watch(() => props.isVisible,
+    (old, newValue) => {
+      if (!newValue) {
+        getCategories()
+      }
+    }
+)
+
 </script>
 
 <template>
@@ -38,17 +46,13 @@ onMounted(() => {
       >
         <el-row>
           <el-col :span="6">
-            <div>
-              <nuxt-link to="/category/phones">Electronic</nuxt-link>
-            </div>
-            <div>
-              <nuxt-link to="/category/phones">Phones</nuxt-link>
-            </div>
-            <div>
-              <nuxt-link to="/category/phones">Phones</nuxt-link>
-            </div>
-            <div>
-              <nuxt-link to="/category/phones">Phones</nuxt-link>
+            <div v-for="category in categories" :key="category['category_name']">
+              <nuxt-link
+                  @click="isVisible = false"
+                  :to="`/category/${category['slug_category']}`"
+              >
+                {{ category['category_name'] }}
+              </nuxt-link>
             </div>
           </el-col>
           <el-col :span="18" class="ml-12">
