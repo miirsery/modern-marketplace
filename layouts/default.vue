@@ -36,7 +36,7 @@ const toggleAuthModalVisible = (): void => {
               @change-state="toggleAuthModalVisible"
           />
             <div class="wrapper">
-                 <common-header
+                 <lazy-common-header
                     @toggle-modal="toggleModal"
                     @open-location="toggleLocationModal"
                     @open-categories="toggleCategoriesVisible"

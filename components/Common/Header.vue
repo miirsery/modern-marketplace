@@ -1,9 +1,17 @@
 <script lang="ts" setup>
+import {useUserStore} from "~/store/user";
+const userStore = useUserStore()
+import Cookies from 'js-cookie'
+
 const emit = defineEmits([
     'openLocation',
     'openCategories',
     'openAuthModal'
 ])
+
+const isUserActionsVisible = ref(false)
+const userActions = ref()
+
 const handleOpenLocation = () => {
   emit('openLocation')
 }
@@ -15,13 +23,35 @@ const handleShowCategories = () => {
 const handleShowAuthModal = () => {
   emit('openAuthModal')
 }
+
+const handleUserActionChange = (visible: any) => {
+  if (visible) {
+    userActions.value.handleClose()
+  } else {
+    userActions.value.handleOpen()
+  }
+}
+
+const handleToggleUserActions = () => {
+  userActions.value.handleOpen()
+}
+
+// onMounted(() => {
+//   if (Cookies.get('token')) {
+//     userStore.isAuthorized = true
+//   }
+// })
 </script>
 <template>
  <div class="header">
    <el-row class="mb-20">
      <el-col :span="12">
        <el-button class="header__search" @click="handleOpenLocation">
-         <img class="header__search-icon" src="../../assets/icons/location-icon.svg" alt="location" />
+         <img
+             class="header__search-icon"
+             src="../../assets/icons/location-icon.svg"
+             alt="location"
+         />
          <span>Новосибирск</span>
        </el-button>
      </el-col>
@@ -42,9 +72,28 @@ const handleShowAuthModal = () => {
      </el-col>
      <el-col :span="8">
        <el-row class="jc-flex-end">
-         <el-col :span="4">
-           <el-button class="header__profile" @click="handleShowAuthModal">
-               <img src="../../assets/images/kuriyama.jpg" alt="profile" />
+         <el-col :span="4" v-if="userStore.isAuthorized">
+           <el-dropdown trigger="hover">
+             <div class="header__profile">
+                <img :src="userStore.user.avatar" alt="profile" />
+             </div>
+             <template #dropdown>
+               <el-dropdown-menu>
+                 <el-dropdown-item>Личный кабинет</el-dropdown-item>
+                 <el-dropdown-item>Уведомления</el-dropdown-item>
+                 <el-dropdown-item>Сообщения</el-dropdown-item>
+                 <el-dropdown-item>Сравнение</el-dropdown-item>
+                 <el-dropdown-item divided>Выход</el-dropdown-item>
+               </el-dropdown-menu>
+             </template>
+           </el-dropdown>
+         </el-col>
+         <el-col :span="4" v-else>
+           <el-button
+               class="header__profile"
+               @click="handleShowAuthModal"
+           >
+             <img src="../../assets/images/kuriyama.jpg" alt="profile" />
            </el-button>
          </el-col>
          <el-col :span="4">
@@ -63,7 +112,7 @@ const handleShowAuthModal = () => {
          </el-col>
          <el-col :span="4">
            <div class="header__icon">
-             <nuxt-link :to="'/'">
+             <nuxt-link to="/cart">
                <img src="../../assets/icons/cart-icon.svg" alt="cart" />
              </nuxt-link>
            </div>

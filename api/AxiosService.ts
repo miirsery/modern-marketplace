@@ -1,7 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { AxiosResponseType } from '@/types/axios.type'
+import Cookies from 'js-cookie'
 
 const runtimeConfig = useRuntimeConfig()
+
+const token = Cookies.get('token')
 
 const config: AxiosRequestConfig = {
     baseURL:
@@ -9,6 +12,9 @@ const config: AxiosRequestConfig = {
             ? ``
             : `${runtimeConfig.public.BASE_URL}`,
     withCredentials: false,
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
 }
 
 export class AxiosService {

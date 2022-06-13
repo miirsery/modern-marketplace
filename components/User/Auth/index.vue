@@ -45,8 +45,14 @@ const handleChangeState = () => {
          </h2>
         </template>
         <div class="user-auth-modal__body">
-          <sign-in v-if="authType === 'SignIn'" />
-          <sign-up v-else />
+          <sign-in
+              v-if="authType === 'SignIn'"
+              @close-auth-modal="visible = false"
+          />
+          <sign-up
+              v-else
+              @close-auth-modal="visible = false"
+          />
         </div>
       </el-dialog>
     </div>

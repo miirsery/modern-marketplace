@@ -7,6 +7,7 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
     "element-plus": "^2.2.5",
     "node-sass": "^7.0.1",
     "nuxt": "3.0.0-rc.3",
@@ -14,6 +15,10 @@
     "sass-loader": "^13.0.0"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "@nuxtjs/composition-api": "^0.32.0",
+    "@pinia/nuxt": "^0.1.9",
+    "axios": "^0.27.2",
+    "js-cookie": "^3.0.1",
+    "pinia": "^2.0.14"
   }
 }

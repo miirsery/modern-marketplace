@@ -5,12 +5,12 @@ export default defineNuxtConfig({
         'element-plus/dist/index.css',
          '@/assets/style/main.scss'
     ],
-    // env: {
-    //     baseUrl: process.env.BASE_URL || 'http://localhost:3000'
-    // },
     publicRuntimeConfig: {
         BASE_URL: process.env.BASE_URL,
     },
+    buildModules: [
+        '@pinia/nuxt',
+    ],
     vite: {
         css: {
             preprocessorOptions: {
