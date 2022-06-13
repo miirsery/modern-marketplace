@@ -7,7 +7,7 @@ export const useCartStore = defineStore('cart', {
     }),
     actions: {
         async addToCart(payload) {
-            await cartApi.addToCart(payload)
+            return await cartApi.addToCart(payload)
         },
         async getAllProducts() {
             await cartApi.getAllProducts()

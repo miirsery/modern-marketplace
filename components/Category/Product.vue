@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useCartStore} from "~/store/cart";
+import {ElMessage} from "element-plus";
 
 const props = defineProps({
   product: {
@@ -11,10 +12,13 @@ const props = defineProps({
 const cartStore = useCartStore()
 
 const handleAddToCart = async () => {
-  await cartStore.addToCart({
+  const [error, data] = await cartStore.addToCart({
     product_id: props.product.id,
     count_product: '1'
   })
+  if (data.error) {
+    ElMessage.error(data.error)
+  }
 }
 </script>
 <template>

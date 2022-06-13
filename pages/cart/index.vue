@@ -31,7 +31,6 @@ onMounted(() => {
     Cart
     <el-row>
       <el-col :span="20">
-        {{ cartProducts }}
         <lazy-cart-product
             v-for="product in cartProducts"
             :key="product.id"
