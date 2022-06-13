@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from imagekit.models import ProcessedImageField
+from autoslug import AutoSlugField
 
 
 class UserManager(BaseUserManager):
@@ -39,9 +40,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='Логин пользователя', max_length=50,
         unique=True,
     )
-    slug = models.SlugField(
-        max_length=255, unique=True, db_index=True,
-        verbose_name="URL", null=True
+    slug = AutoSlugField(
+        verbose_name='URL',
+        blank=True,
+        null=True,
+        populate_from='username',
     )
     email = models.EmailField(max_length=100, unique=True)
     avatar = ProcessedImageField(
