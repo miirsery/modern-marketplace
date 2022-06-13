@@ -6,7 +6,6 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from imagekit.models import ProcessedImageField
-from autoslug import AutoSlugField
 
 
 class UserManager(BaseUserManager):
@@ -40,11 +39,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='Логин пользователя', max_length=50,
         unique=True,
     )
-    slug = AutoSlugField(
+    slug = models.SlugField(
         verbose_name='URL',
+        max_length=255,
         blank=True,
         null=True,
-        populate_from='username',
+        db_index=True,
     )
     email = models.EmailField(max_length=100, unique=True)
     avatar = ProcessedImageField(
@@ -82,6 +82,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+    def save(self, *args, **kwargs):
+        self.slug = self.username
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('user', kwargs={'user_slug': self.slug})
