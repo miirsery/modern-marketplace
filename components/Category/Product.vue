@@ -19,7 +19,7 @@ const handleAddToCart = async () => {
 </script>
 <template>
   <div class="category-product">
-    <nuxt-link :to="`/product/${product.slug}`">
+    <nuxt-link :to="`/product/${product.id}`">
       <div class="category-product__images">
         <img :src="product.photo[0].image" :alt="product.title">
       </div>
