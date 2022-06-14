@@ -1,7 +1,7 @@
 from django.db.models import Sum
 
 
-class BasketСontroller:
+class BasketCalculator:
     def final_basket_price(self, cart):
         final_price_basket = cart.products.values_list(
             'final_price', flat=True

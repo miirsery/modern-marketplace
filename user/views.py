@@ -8,6 +8,9 @@ from rest_framework import status
 
 
 class UserCreateApiView(APIView):
+    """
+    Авторизация пользователя.
+    """
     queryset = User.objects.filter(is_active=True)
     permission_classes = (IsAuthenticated,)
 
@@ -18,12 +21,19 @@ class UserCreateApiView(APIView):
 
 
 class UserUpdateApiView(generics.UpdateAPIView):
+    """
+    Обновление фото пользователя и логина.
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
 
 class UserDeleteAvatarView(APIView):
+    """
+    Удаление фото аватара пользователя,
+    установка default фото для аватара.
+    """
     queryset = User.objects.filter(is_active=True)
     permission_classes = (IsAuthenticated,)
 

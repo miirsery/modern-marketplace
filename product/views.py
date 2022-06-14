@@ -38,11 +38,17 @@ class ProductViewSetAPI(viewsets.ModelViewSet):
 
 
 class ListCategoryApiView(generics.ListAPIView):
+    """
+    Получение списка всех категорий.
+    """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
 class ListApiProductByCategory(generics.ListAPIView):
+    """
+    Получение товаров по определённой категории.
+    """
     serializer_class = ProductSerializer
 
     def get_queryset(self):
@@ -59,6 +65,9 @@ class ListApiProductByCategory(generics.ListAPIView):
 
 
 class AddFavoriteProductApiView(APIView):
+    """
+    Добавление товара в избранное.
+    """
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
@@ -80,6 +89,9 @@ class AddFavoriteProductApiView(APIView):
 
 
 class FavoriteProductApiList(generics.ListAPIView):
+    """
+    Получение списка избранных товаров.
+    """
     serializer_class = ProductSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -88,6 +100,9 @@ class FavoriteProductApiList(generics.ListAPIView):
 
 
 class GetQuantityProductFavoriteApi(APIView):
+    """
+    Получение количества товаров в избранном.
+    """
     def get(self, request, *args, **kwargs):
         return Response({
             "count_favorite_products":
