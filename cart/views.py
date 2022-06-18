@@ -28,31 +28,38 @@ class CartAddProductApi(APIView):
         prod_obj = Product.objects.get(id=product_id)
         count_products = request.data.get('count_product')
         cart = Cart.objects.filter(user_name=user).first()
+
         if not cart:
             cart = Cart.objects.create(user_name=user,)
+
         cart_products_all_title = cart.products.all().values_list(
             'product_name__title', flat=True
         )
+
         if prod_obj.title in cart_products_all_title:
             return Response({"error": "Уже имеется в корзине"})
+
         cart_product, created = CartProduct.objects.get_or_create(
             cart=cart, product_name=prod_obj,
             count_product=int(count_products),
         )
+
         if created:
             cart.products.add(cart_product)
+
         return Response({"count_products": cart.products.count()})
 
 
-class CartApiList(generics.ListAPIView):
+class CartApiList(APIView):
     """
-    Получение списка продуктов находящихся в корзине.
+    Получение продуктов находящихся в корзине.
     """
-    serializer_class = ProductBasketSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        return Cart.objects.filter(user_name=f"{self.request.user.id}")
+    def get(self, request, *args, **kwargs):
+        cart = Cart.objects.get(user_name=f"{self.request.user.id}")
+        serializer = ProductBasketSerializer(cart)
+        return Response(serializer.data)
 
 
 class CalculationCartApiList(APIView):

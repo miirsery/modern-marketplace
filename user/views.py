@@ -5,6 +5,7 @@ from .models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .services.user_worker import UserWorker
 
 
 class UserCreateApiView(APIView):
@@ -39,8 +40,8 @@ class UserDeleteAvatarView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        user.avatar.delete(save=False)
-        user.avatar = 'system_images/defult.jpg'
+        user_worker = UserWorker()
+        user_worker.user_delete_avatar(user, 'system_images/defult.jpg')
         user.save()
         return Response(
             UserSerializer(user, context={"request": request}).data,
