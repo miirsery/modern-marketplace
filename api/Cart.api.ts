@@ -9,10 +9,17 @@ class Cart extends AxiosService {
         })
     }
 
-    public getAllProducts() {
+    public getAllProducts () {
         return this.axiosCall({
             method: 'get',
             url: '/api/cart/list-products-cart/'
+        })
+    }
+
+    public updateCalculationsCart () {
+        return this.axiosCall({
+            method: 'get',
+            url: '/api/cart/update-calculations-cart/'
         })
     }
 }

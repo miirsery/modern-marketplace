@@ -36,11 +36,16 @@ const handleToggleUserActions = () => {
   userActions.value.handleOpen()
 }
 
-// onMounted(() => {
-//   if (Cookies.get('token')) {
-//     userStore.isAuthorized = true
-//   }
-// })
+const logout = () => {
+  Cookies.remove('token')
+  location.reload()
+}
+
+onMounted(() => {
+  if (Cookies.get('token')) {
+    userStore.isAuthorized = true
+  }
+})
 </script>
 <template>
  <div class="header">
@@ -83,7 +88,12 @@ const handleToggleUserActions = () => {
                  <el-dropdown-item>Уведомления</el-dropdown-item>
                  <el-dropdown-item>Сообщения</el-dropdown-item>
                  <el-dropdown-item>Сравнение</el-dropdown-item>
-                 <el-dropdown-item divided>Выход</el-dropdown-item>
+                 <el-dropdown-item
+                     divided
+                     @click="logout"
+                 >
+                   Выход
+                 </el-dropdown-item>
                </el-dropdown-menu>
              </template>
            </el-dropdown>
@@ -113,7 +123,9 @@ const handleToggleUserActions = () => {
          <el-col :span="4">
            <div class="header__icon">
              <nuxt-link to="/cart">
-               <img src="../../assets/icons/cart-icon.svg" alt="cart" />
+               <el-badge :value="3" type="primary">
+                <img src="../../assets/icons/cart-icon.svg" alt="cart" />
+               </el-badge>
              </nuxt-link>
            </div>
          </el-col>

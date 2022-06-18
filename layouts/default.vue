@@ -18,6 +18,7 @@ const toggleCategoriesVisible = (): void => {
 const toggleAuthModalVisible = (): void => {
   isAuthModalVisible.value = !isAuthModalVisible.value
 }
+
 </script>
 
 <template>

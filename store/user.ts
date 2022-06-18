@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import {authApi} from "~/api/Auth.api";
+import { authApi } from "~/api/Auth.api";
 import Cookies from 'js-cookie'
 
 export const useUserStore = defineStore('user', {

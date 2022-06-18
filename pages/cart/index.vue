@@ -1,26 +1,12 @@
 <script lang="ts" setup>
 import {useCartStore} from "~/store/cart";
-import Cookies from "js-cookie";
 
-const runtimeConfig = useRuntimeConfig()
-// const cartStore = useCartStore()
+const cartStore = useCartStore()
 const cartProducts = ref([])
 
-const token = Cookies.get('token')
-
 const getAllProduct = async () => {
-  // const data = cartStore.getAllProducts()
-  // console.log(data)
-  await fetch(`${runtimeConfig.public.BASE_URL}/api/cart/list-products-cart/`, {
-    method: 'get',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-      .then(r => r.json())
-      .then(r => {
-        cartProducts.value = r[0].products
-      })
+  const [error, data] = await cartStore.getAllProducts()
+  cartProducts.value = data[0].products
 }
 onMounted(() => {
   getAllProduct()

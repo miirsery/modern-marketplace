@@ -22,6 +22,7 @@ const closeAuthModal = () => {
   clearForm()
 
   emit('closeAuthModal')
+  location.reload()
 }
 
 const tokenCreate = async () => {

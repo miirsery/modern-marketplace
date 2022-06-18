@@ -1,6 +1,6 @@
 import { defineNuxtConfig } from 'nuxt'
-
 export default defineNuxtConfig({
+    ssr: false,
     css: [
         'element-plus/dist/index.css',
          '@/assets/style/main.scss'

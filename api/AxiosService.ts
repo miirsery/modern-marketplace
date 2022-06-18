@@ -2,26 +2,31 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { AxiosResponseType } from '@/types/axios.type'
 import Cookies from 'js-cookie'
 
-const runtimeConfig = useRuntimeConfig()
-
+// const runtimeConfig = useRuntimeConfig()
+const BASE_URL = 'http://127.0.0.1:8000'
 const token = Cookies.get('token')
 
 const config: AxiosRequestConfig = {
     baseURL:
         process.env.NODE_ENV === 'production'
             ? ``
-            : `${runtimeConfig.public.BASE_URL}`,
+            : `${BASE_URL}`,
     withCredentials: false,
+}
+
+const headers = {
     headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
     }
 }
+
+const newConfig = token === undefined ? config : Object.assign({}, config, headers)
 
 export class AxiosService {
     private axiosInstance!: AxiosInstance
 
     constructor() {
-        this.axiosInstance = axios.create(config)
+        this.axiosInstance = axios.create(newConfig)
 
         // this.axiosInstance.interceptors.request.use((config) => {
         //   config.xsrfCookieName = 'XSRF-TOKEN'
