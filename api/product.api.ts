@@ -10,8 +10,8 @@ class Product extends AxiosService {
     }
     public updateCountCurrentProductInCart (id: number, count: number) {
         return this.axiosCall({
-            method: 'post',
-            url: `/api/cart/update-calculations-cart/${id}/`,
+            method: 'put',
+            url: `/api/cart/update-cart-products/${id}/`,
             data: count
         })
     }

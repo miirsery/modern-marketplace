@@ -32,6 +32,10 @@ const updateCountCurrentProductInCart = async (): Promise<void> => {
 }
 
 const handleAddToCart = async (): Promise<void> => {
+  if (countProducts.value === 0) {
+    countProducts.value++
+  }
+  
   const [error, data] = await cartStore.addToCart({
     product_id: props.product.id,
     count_product: countProducts.value
@@ -40,11 +44,10 @@ const handleAddToCart = async (): Promise<void> => {
   if (data.error) {
     ElMessage.error(data.error)
   } else {
-    countProducts.value++
     openSuccessMessage()
     await cartStore.updateCalculationsCart()
     await updateCountProductsInCart(data.count_products)
-    await updateCountCurrentProductInCart()
+    // await updateCountCurrentProductInCart()
   }
 }
 </script>
@@ -68,7 +71,7 @@ const handleAddToCart = async (): Promise<void> => {
     </p>
     <p class="mb-12">{{ product.title }}</p>
     <el-button
-        v-if="countProducts < 1"
+        v-if="countProducts === 0"
         size="small"
         type="primary"
         @click="handleAddToCart"
@@ -82,6 +85,7 @@ const handleAddToCart = async (): Promise<void> => {
         :max="10"
         @change="handleAddToCart"
     />
+    
   </el-col>
 </template>
 
