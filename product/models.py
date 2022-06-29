@@ -57,7 +57,7 @@ class Product(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     quantity = models.PositiveIntegerField(
-        verbose_name='Количество товара',
+        verbose_name='Товаров в наличии',
         default=0,
     )
     year = models.PositiveIntegerField(

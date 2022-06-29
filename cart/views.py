@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
 from rest_framework.response import Response
 from .models import (
     Cart,
@@ -10,9 +9,7 @@ from product.models import Product
 from .serializers import (
     AddToCartSerializer,
     ProductBasketSerializer,
-    CartProductUpdateSerializer,
 )
-from .services.basket_calculator import BasketCalculator
 
 
 class CartAddProductApi(APIView):
@@ -47,6 +44,25 @@ class CartAddProductApi(APIView):
         if created:
             cart.products.add(cart_product)
 
+        return Response(
+            {"count_products_in_basket": cart.total_products}
+        )
+
+
+class DeleteFromCartApi(APIView):
+    """
+    Удаление продукта из корзины.
+    """
+    serializer_class = AddToCartSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        product_del_id = request.data.get('product_id')
+        cart = Cart.objects.filter(user_name=user).first()
+        cart_product = CartProduct.objects.get(id=product_del_id)
+        cart.products.remove(cart_product)
+        cart_product.delete()
         return Response({"count_products": cart.products.count()})
 
 
@@ -60,40 +76,3 @@ class CartApiList(APIView):
         cart = Cart.objects.get(user_name=f"{self.request.user.id}")
         serializer = ProductBasketSerializer(cart)
         return Response(serializer.data)
-
-
-class CalculationCartApiList(APIView):
-    """
-    Расчеты внутри корзины
-    (Общая цена корзины, всего количества товаров в корзине и т.д).
-    """
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        cart = Cart.objects.filter(user_name=user).first()
-        basket_calculator = BasketCalculator()
-        basket_calculator.final_basket_price(cart)
-        basket_calculator.total_products(cart)
-        basket_calculator.total_discount_products(cart)
-        basket_calculator.total_price_not_discount_products(cart)
-        return Response({"update_cart": True})
-
-
-class CartUpdateCartProductApiView(generics.UpdateAPIView):
-    """
-    Обновление информации в корзине,
-    в основном количество определённого товара.
-    """
-    queryset = CartProduct.objects.all()
-    permission_classes = (IsAuthenticated,)
-    serializer_class = CartProductUpdateSerializer
-
-
-class DeleteCartProductApiView(generics.DestroyAPIView):
-    """
-    Удаление товара из корзины.
-    """
-    queryset = CartProduct.objects.all()
-    permission_classes = (IsAuthenticated,)
-    serializer_class = CartProductUpdateSerializer

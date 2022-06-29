@@ -1,16 +1,15 @@
 from .models import Cart
 from django.db.models.signals import (
-    post_save,
-    pre_save,
+    m2m_changed,
 )
 from django.dispatch import receiver
 
-
-@receiver(pre_save, sender=Cart)
-def cart_pre_save_signal(sender, *args, **kwargs):
-    print(f"pre_save - {kwargs} {args}")
+from .services.basket_calculator import BasketCalculator
 
 
-@receiver(post_save, sender=Cart)
-def cart_post_save_signal(sender, **kwargs):
-    print(f"post_save - {kwargs} {sender}")
+@receiver(m2m_changed, sender=Cart.products.through)
+def cart_m2m_changed_save_signal(sender, instance, action, *args, **kwargs):
+    if action == 'post_add' or action == 'post_remove':
+        basket_calculator = BasketCalculator()
+        basket_calculator.basket_calculation(instance)
+        instance.save()

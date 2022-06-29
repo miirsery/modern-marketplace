@@ -24,22 +24,18 @@ class Cart(models.Model):
     total_discount_price = models.IntegerField(
         verbose_name='Общая сумма скидок',
         default=0,
-        null=True,
-        blank=True,
     )
     total_not_discount_price = models.IntegerField(
         verbose_name='Общая сумма цен без скидок',
         default=0,
-        null=True,
-        blank=True,
     )
 
     def __str__(self):
         return f"{self.user_name} - корзина {self.id}"
 
     class Meta:
-        verbose_name = 'Корзина'
-        verbose_name_plural = 'Корзина'
+        verbose_name = 'Cart'
+        verbose_name_plural = 'Cart'
 
 
 class CartProduct(models.Model):
@@ -72,8 +68,8 @@ class CartProduct(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Продукт для корзины'
-        verbose_name_plural = 'Продукты для корзины'
+        verbose_name = 'Product in cart'
+        verbose_name_plural = 'Products in cart'
 
     def __str__(self):
         return f"{self.product_name} добавлен в коризну - {self.cart}"
