@@ -1,10 +1,13 @@
-from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-from .models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .models import User
+from .serializers import (
+    UserSerializer,
+    UserInfoSerializer,
+)
 from .services.user_worker import UserWorker
 
 
@@ -45,5 +48,20 @@ class UserDeleteAvatarView(APIView):
         user.save()
         return Response(
             UserSerializer(user, context={"request": request}).data,
+            status.HTTP_200_OK
+        )
+
+
+class AboutUserView(APIView):
+    """
+    Получение информации о пользоватле
+    """
+    queryset = User.objects.filter(is_active=True)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return Response(
+            UserInfoSerializer(user, context={"request": request}).data,
             status.HTTP_200_OK
         )

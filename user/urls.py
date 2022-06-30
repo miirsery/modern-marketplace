@@ -4,6 +4,7 @@ from .views import (
     UserCreateApiView,
     UserUpdateApiView,
     UserDeleteAvatarView,
+    AboutUserView,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('authorization/', UserCreateApiView.as_view()),
     path('update/<int:pk>/', UserUpdateApiView.as_view()),
     path('delete/avatar/', UserDeleteAvatarView.as_view()),
+    path('me/', AboutUserView.as_view()),
 ]

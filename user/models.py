@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
     PermissionsMixin
 )
 from django.db import models
+from autoslug import AutoSlugField
 from imagekit.models import ProcessedImageField
 
 
@@ -39,12 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='Логин пользователя', max_length=50,
         unique=True,
     )
-    slug = models.SlugField(
-        verbose_name='URL',
-        max_length=255,
-        blank=True,
-        null=True,
-        db_index=True,
+    slug = AutoSlugField(
+        populate_from='username'
     )
     email = models.EmailField(max_length=100, unique=True)
     avatar = ProcessedImageField(
@@ -54,6 +51,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
         default='system_images/defult.jpg',
+    )
+    firts_name = models.CharField(
+        verbose_name='Имя',
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    last_name = models.CharField(
+        verbose_name='Фамилия',
+        max_length=255,
+        null=True,
+        blank=True,
     )
     is_active = models.BooleanField(
         default=True,
@@ -74,6 +83,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+    role = models.CharField(
+        verbose_name='Основная роль пользователя',
+        max_length=255,
+        default='user'
+    )
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -84,7 +98,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     def save(self, *args, **kwargs):
-        self.slug = self.username
+        if self.is_active is True and self.is_staff is False\
+                and self.is_moderator is False:
+            self.role = 'user'
+        elif self.is_active is True and self.is_moderator is True\
+                and self.is_staff is False:
+            self.role = 'moderator'
+        elif self.is_active is True and self.is_staff is True\
+                and self.is_moderator is False:
+            self.role = 'admin'
+        elif self.is_active is True and self.is_staff is True\
+                and self.is_moderator is True:
+            self.role = 'admin'
+        else:
+            self.role = 'anonymous_user'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

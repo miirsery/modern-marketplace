@@ -51,6 +51,9 @@ class CartAddProductApi(APIView):
         )
 
     def patch(self, request, *args, **kwargs):
+        """
+        Изменение количества товара в корзине
+        """
         user = request.user
         product_id = request.data.get('product_id')
         cart_product = CartProduct.objects.get(id=product_id)
