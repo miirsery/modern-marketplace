@@ -12,15 +12,6 @@ from product.serializers import (
 )
 
 
-class DeleteProductFromCart(serializers.ModelSerializer):
-
-    class Meta:
-        model = CartProduct
-        fields = (
-            'cart', 'product_name',
-        )
-
-
 class AddToCartSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -71,9 +62,10 @@ class ProductBasketSerializer(serializers.ModelSerializer):
         )
 
 
-class CartProductUpdateSerializer(serializers.ModelSerializer):
+class DeleteProductFromCartSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CartProduct
         fields = (
-            'count_product',
+            'id',
         )

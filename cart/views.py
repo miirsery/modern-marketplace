@@ -9,17 +9,19 @@ from product.models import Product
 from .serializers import (
     AddToCartSerializer,
     ProductBasketSerializer,
+    DeleteProductFromCartSerializer,
 )
+from .services.basket_calculator import BasketCalculator
 
 
 class CartAddProductApi(APIView):
-    """
-    Добавление продукта в корзину.
-    """
     serializer_class = AddToCartSerializer
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
+        """
+        Добавление продукта в корзину.
+        """
         user = request.user
         product_id = request.data.get('product_id')
         prod_obj = Product.objects.get(id=product_id)
@@ -48,12 +50,27 @@ class CartAddProductApi(APIView):
             {"count_products_in_basket": cart.total_products}
         )
 
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        product_id = request.data.get('product_id')
+        cart_product = CartProduct.objects.get(id=product_id)
+        cart = Cart.objects.filter(user_name=user).first()
+        new_count_products = request.data.get('new_count_products')
+        cart_product.count_product = int(new_count_products)
+        cart_product.save()
+        basket_calculator = BasketCalculator()
+        basket_calculator.basket_calculation(cart)
+        cart.save()
+        return Response(
+            {"count_products_in_basket": cart.total_products}
+        )
+
 
 class DeleteFromCartApi(APIView):
     """
     Удаление продукта из корзины.
     """
-    serializer_class = AddToCartSerializer
+    serializer_class = DeleteProductFromCartSerializer
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
@@ -63,7 +80,9 @@ class DeleteFromCartApi(APIView):
         cart_product = CartProduct.objects.get(id=product_del_id)
         cart.products.remove(cart_product)
         cart_product.delete()
-        return Response({"count_products": cart.products.count()})
+        return Response(
+            {"count_products_in_basket": cart.total_products}
+        )
 
 
 class CartApiList(APIView):

@@ -1,4 +1,6 @@
-from .models import Cart
+from .models import (
+    Cart,
+)
 from django.db.models.signals import (
     m2m_changed,
 )
