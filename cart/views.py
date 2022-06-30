@@ -98,3 +98,18 @@ class CartApiList(APIView):
         cart = Cart.objects.get(user_name=f"{self.request.user.id}")
         serializer = ProductBasketSerializer(cart)
         return Response(serializer.data)
+
+
+class GetQuantityProductCartApi(APIView):
+    """
+    Получение количества товаров в карзине.
+    """
+    serializer_class = DeleteProductFromCartSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        cart = Cart.objects.filter(user_name=user).first()
+        return Response(
+            {"count_products_in_basket": cart.total_products}
+        )
