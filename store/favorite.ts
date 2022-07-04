@@ -11,8 +11,15 @@ export const useFavoriteStore = defineStore('favorite', {
             await favoriteApi.addToFavorite(payload)
         },
         async getTotalCountProductInFavorite () {
-            const [_, data] = await  favoriteApi.getTotalCountProductInFavorite()
+            const [_, data] = await favoriteApi.getTotalCountProductInFavorite()
             this.count = data.count_favorite_products
-        }
+        },
+        async getProductsInFavorite () {
+            const [_, data] = await favoriteApi.getProductsInFavorite()
+            for (let item of data) {
+                this.items.push(item)
+            }
+        },
+
     }
 })

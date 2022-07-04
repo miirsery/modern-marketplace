@@ -15,6 +15,12 @@ class Favorite extends AxiosService {
             url: `/api/product/favorite/quantity-products/`,
         })
     }
+    public getProductsInFavorite() {
+        return this.axiosCall({
+            method: 'get',
+            url: `/api/product/favorite/list-products/`,
+        })
+    }
 }
 
 export const favoriteApi = new Favorite()
