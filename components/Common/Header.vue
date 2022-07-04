@@ -15,9 +15,6 @@ const emit = defineEmits([
     'openAuthModal'
 ])
 
-const isUserActionsVisible = ref(false)
-const userActions = ref()
-
 const handleOpenLocation = () => {
   emit('openLocation')
 }
@@ -28,18 +25,6 @@ const handleShowCategories = () => {
 
 const handleShowAuthModal = () => {
   emit('openAuthModal')
-}
-
-const handleUserActionChange = (visible: any) => {
-  if (visible) {
-    userActions.value.handleClose()
-  } else {
-    userActions.value.handleOpen()
-  }
-}
-
-const handleToggleUserActions = () => {
-  userActions.value.handleOpen()
 }
 
 const getTotalCountProductInCart = computed(() => cart.count)
