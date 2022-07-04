@@ -130,7 +130,6 @@ onMounted(() => {
      </el-col>
    </el-row>
  </div>
-
 </template>
 <style lang="scss">
 .header {

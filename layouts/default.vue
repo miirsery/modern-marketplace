@@ -31,7 +31,7 @@ onMounted(async () => {
   await user.aboutMe()
   await cart.getTotalProducts()
   await cart.getAllProducts()
-  await favoriteStore.getTotalCountProductInFavorite()
+  await favoriteStore.getProductsInFavorite()
 })
 </script>
 

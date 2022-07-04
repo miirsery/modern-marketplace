@@ -54,14 +54,13 @@ const handleAddToCart = async (): Promise<void> => {
     openSuccessMessage()
     await cartStore.updateCalculationsCart()
     await updateCountProductsInCart(data.count_products)
-    // await updateCountCurrentProductInCart()
   }
 }
 const handleAddToFavorite = async (): Promise<void> => {
   await favoriteStore.addToFavorite({
     product_id: props.product.id
   })
-  await favoriteStore.getTotalCountProductInFavorite()
+  await favoriteStore.getProductsInFavorite()
 }
 
 const handleUpdateProductCount  = async (): Promise<void> => {
@@ -110,7 +109,12 @@ const handleUpdateProductCount  = async (): Promise<void> => {
           @change="handleUpdateProductCount"
       />
       <el-button class="category-product__favorite-button" @click="handleAddToFavorite">
-        <img class="category-product__favorite-icon" src="../../assets/icons/favorite-icon.svg" alt="favorite" /></el-button>
+        <common-icon
+            svg="favorite-icon"
+            class="category-product__favorite-icon"
+            :className="{'category-product__favorite-icon--in-cart': favoriteStore.hasFavoriteProduct(props.product.id)}"
+        />
+      </el-button>
     </el-row>
   </el-col>
 </template>
@@ -133,8 +137,12 @@ const handleUpdateProductCount  = async (): Promise<void> => {
 
   &__favorite {
     &-icon {
-     width: 24px;
-     height: 24px;
+      width: 24px;
+      height: 24px;
+
+      &--in-cart {
+        color: $color-danger;
+      }
     }
   }
 
