@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ElMessage } from "element-plus";
-import { productApi } from "~/api/Product.api";
-import { useFavoriteStore } from "~/store/favorite";
-import { useCartStore } from "~/store/cart";
+import {ElMessage} from "element-plus";
+import {productApi} from "~/api/Product.api";
+import {useFavoriteStore} from "~/store/favorite";
+import {useCartStore} from "~/store/cart";
 
 const props = defineProps({
   product: {
@@ -15,6 +15,11 @@ const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
 
 const countProducts = ref(0)
+const productsInCart = cartStore.getAllProductsInCart
+
+countProducts.value = cartStore.hasProduct(3)
+    ? cartStore.products.find((item) => item.id === 3)?.count_product
+    : 0
 
 const openSuccessMessage = (): void => {
   ElMessage({
@@ -52,11 +57,11 @@ const handleAddToCart = async (): Promise<void> => {
     // await updateCountCurrentProductInCart()
   }
 }
-
 const handleAddToFavorite = async (): Promise<void> => {
   await favoriteStore.addToFavorite({
     product_id: props.product.id
   })
+  await favoriteStore.getTotalCountProductInFavorite()
 }
 
 const handleUpdateProductCount  = async (): Promise<void> => {
@@ -67,6 +72,7 @@ const handleUpdateProductCount  = async (): Promise<void> => {
 
   await cartStore.getTotalProducts()
 }
+
 </script>
 <template>
   <el-col :span="6" class="category-product">
@@ -122,7 +128,7 @@ const handleUpdateProductCount  = async (): Promise<void> => {
     position: relative;
     overflow: hidden;
     display: block;
-    height: 310px;
+    height: 180px;
   }
 
   &__favorite {

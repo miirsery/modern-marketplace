@@ -6,6 +6,11 @@ export const useCartStore = defineStore('cart', {
         products: [],
         count: 0,
     }),
+    getters: {
+        getAllProductsInCart: (state): any => state.products,
+        hasProduct: (state) => (productId) => state.products.some((product) => product.id === productId),
+        isLoaded: (state) => state.products.length > 0
+    },
     actions: {
         async addToCart (payload) {
             return await cartApi.addToCart(payload)
@@ -14,7 +19,8 @@ export const useCartStore = defineStore('cart', {
             return await cartApi.updateProductCount(payload)
         },
         async getAllProducts () {
-            return await cartApi.getAllProducts()
+            const [error, data] = await cartApi.getAllProducts()
+            this.products = data.products
         },
         async updateCountProductsInCart (count){
             this.count = count

@@ -20,6 +20,5 @@ export const useFavoriteStore = defineStore('favorite', {
                 this.items.push(item)
             }
         },
-
     }
 })

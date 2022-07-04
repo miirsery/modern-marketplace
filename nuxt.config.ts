@@ -1,4 +1,6 @@
 import { defineNuxtConfig } from 'nuxt'
+import svgLoader from 'vite-svg-loader'
+
 export default defineNuxtConfig({
     ssr: false,
     css: [
@@ -12,6 +14,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
     ],
     vite: {
+        plugins: [svgLoader()],
         css: {
             preprocessorOptions: {
                 scss: {

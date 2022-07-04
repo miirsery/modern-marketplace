@@ -79,14 +79,12 @@ onMounted(() => {
              <template #dropdown>
                <el-dropdown-menu>
                  <el-dropdown-item>
-                 <nuxt-link to="/profile">Личный кабинет</nuxt-link>
+                  <nuxt-link to="/profile">Личный кабинет</nuxt-link>
                  </el-dropdown-item>
                  <el-dropdown-item>Уведомления</el-dropdown-item>
                  <el-dropdown-item>Сообщения</el-dropdown-item>
                  <el-dropdown-item>Сравнение</el-dropdown-item>
-                 <el-dropdown-item
-                     divided
-                 >
+                 <el-dropdown-item divided>
                    <el-button size="small" @click="logout" class="header__logout">
                     Выход
                    </el-button>
@@ -105,8 +103,8 @@ onMounted(() => {
          </el-col>
          <el-col :span="4">
            <div class="header__icon">
-             <nuxt-link :to="'/'">
-               <img src="../../assets/icons/orders-icon.svg" alt="orders" />
+             <nuxt-link to="/">
+               <common-icon svg="orders-icon" className="header__icon" />
              </nuxt-link>
            </div>
          </el-col>
@@ -114,7 +112,7 @@ onMounted(() => {
            <div class="header__icon">
              <nuxt-link to="/">
                <el-badge :value="getTotalCountProductInFavorite" type="primary">
-                 <img src="../../assets/icons/favorite-icon.svg" alt="favorite" />
+                 <common-icon svg="favorite-icon" className="header__icon" />
                </el-badge>
              </nuxt-link>
            </div>
@@ -123,7 +121,7 @@ onMounted(() => {
            <div class="header__icon">
              <nuxt-link to="/cart">
                <el-badge :value="getTotalCountProductInCart" type="primary">
-                <img src="../../assets/icons/cart-icon.svg" alt="cart" />
+                 <common-icon svg="cart-icon" className="header__icon" />
                </el-badge>
              </nuxt-link>
            </div>

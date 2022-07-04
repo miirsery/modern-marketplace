@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {categoriesApi} from "~/api/Categories.api";
-
+import {useCartStore} from "~/store/cart";
+const cartStore = useCartStore()
 const category = useRoute()
 const products = ref([])
 
@@ -23,8 +24,8 @@ onMounted(() => {
         <category-filter />
       </el-col>
       <el-col :span="20">
-        <el-row>
-          <lazy-category-product
+        <el-row v-if="cartStore.isLoaded">
+          <category-product
             v-for="product in products"
             :key="products.title"
             :product="product"
