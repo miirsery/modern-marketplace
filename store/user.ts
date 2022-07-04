@@ -17,12 +17,21 @@ export const useUserStore = defineStore('user', {
            await authApi.signUp(payload)
         },
         async tokenCreate(payload) {
-            const [error, token] = await authApi.tokenCreate(payload)
+            const [_, token] = await authApi.tokenCreate(payload)
             Cookies.set('token', token.token)
         },
         async signIn(token) {
-            const [error, data] = await authApi.signIn(token)
+            const [_, data] = await authApi.signIn(token)
             this.user = data
+        },
+        async aboutMe() {
+            const [_, data] = await authApi.aboutUser()
+            this.user.role = data.role
+            this.user.ud = data.id
+            this.user.email = data.email
+            this.user.avatar = data.avatar
+            this.user.username = data.username
+            this.user.createdAt = data.create_at
         }
     }
 })

@@ -14,9 +14,6 @@ class Auth extends AxiosService {
         return this.axiosCall({
             method: 'get',
             url: '/api/user/authorization/',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
         })
     }
 
@@ -25,6 +22,13 @@ class Auth extends AxiosService {
             method: 'post',
             url: '/api/user/register/users/',
             data: payload
+        })
+    }
+
+    public aboutUser() {
+        return this.axiosCall({
+            method: 'get',
+            url: '/api/user/me'
         })
     }
 }

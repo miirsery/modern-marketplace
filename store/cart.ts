@@ -10,6 +10,9 @@ export const useCartStore = defineStore('cart', {
         async addToCart (payload) {
             return await cartApi.addToCart(payload)
         },
+        async updateProductCount (payload) {
+            return await cartApi.updateProductCount(payload)
+        },
         async getAllProducts () {
             return await cartApi.getAllProducts()
         },
@@ -17,7 +20,11 @@ export const useCartStore = defineStore('cart', {
             this.count = count
         },
         async updateCalculationsCart () {
-            return await  cartApi.updateCalculationsCart()
+            return await cartApi.updateCalculationsCart()
+        },
+        async getTotalProducts () {
+            const [error, data] = await cartApi.getTotalProducts()
+            this.count = data.count_products_in_basket
         }
     }
 })

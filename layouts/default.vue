@@ -1,7 +1,15 @@
 <script lang="ts" setup>
+import { useFavoriteStore } from "~/store/favorite";
+import { useUserStore } from "~/store/user";
+import { useCartStore } from "~/store/cart";
+
 const isLocationModalVisible  = ref(false)
 const isCategoriesVisible = ref(false)
 const isAuthModalVisible = ref(false)
+
+const favoriteStore = useFavoriteStore()
+const user = useUserStore()
+const cart = useCartStore()
 
 const toggleModal = (): void => {
     // ...
@@ -19,6 +27,11 @@ const toggleAuthModalVisible = (): void => {
   isAuthModalVisible.value = !isAuthModalVisible.value
 }
 
+onMounted(async () => {
+  await user.aboutMe()
+  await cart.getTotalProducts()
+  await favoriteStore.getTotalCountProductInFavorite()
+})
 </script>
 
 <template>

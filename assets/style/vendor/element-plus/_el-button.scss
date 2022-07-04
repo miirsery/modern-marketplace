@@ -1,0 +1,17 @@
+.el-button {
+  &.header {
+    &__logout {
+      width: 100%;
+      border: none;
+      background: none;
+      color: $color-danger;
+    }
+  }
+
+  &.category-product {
+    &__favorite-button {
+      border: none;
+      background: none;
+    }
+  }
+}

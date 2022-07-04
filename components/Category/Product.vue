@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import {useCartStore} from "~/store/cart";
-import {ElMessage} from "element-plus";
-import {productApi} from "~/api/product.api";
+import { ElMessage } from "element-plus";
+import { productApi } from "~/api/Product.api";
+import { useFavoriteStore } from "~/store/favorite";
+import { useCartStore } from "~/store/cart";
 
 const props = defineProps({
   product: {
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const cartStore = useCartStore()
+const favoriteStore = useFavoriteStore()
 
 const countProducts = ref(0)
 
@@ -35,10 +37,10 @@ const handleAddToCart = async (): Promise<void> => {
   if (countProducts.value === 0) {
     countProducts.value++
   }
-  
-  const [error, data] = await cartStore.addToCart({
-    product_id: props.product.id,
-    count_product: countProducts.value
+
+  const [_, data] = await cartStore.addToCart({
+    product_id: props.product.id.toString(),
+    count_product: countProducts.value.toString()
   })
 
   if (data.error) {
@@ -49,6 +51,21 @@ const handleAddToCart = async (): Promise<void> => {
     await updateCountProductsInCart(data.count_products)
     // await updateCountCurrentProductInCart()
   }
+}
+
+const handleAddToFavorite = async (): Promise<void> => {
+  await favoriteStore.addToFavorite({
+    product_id: props.product.id
+  })
+}
+
+const handleUpdateProductCount  = async (): Promise<void> => {
+  await cartStore.updateProductCount({
+    product_id: props.product.id,
+    new_count_products: countProducts.value
+  })
+
+  await cartStore.getTotalProducts()
 }
 </script>
 <template>
@@ -70,22 +87,25 @@ const handleAddToCart = async (): Promise<void> => {
       <span v-if="product.price_old">{{ product.price_old }} ₽</span>
     </p>
     <p class="mb-12">{{ product.title }}</p>
-    <el-button
-        v-if="countProducts === 0"
-        size="small"
-        type="primary"
-        @click="handleAddToCart"
-    >
-      Добавить в корзину
-    </el-button>
-    <el-input-number
-        v-else
-        v-model="countProducts"
-        :min="1"
-        :max="10"
-        @change="handleAddToCart"
-    />
-    
+    <el-row justify="space-between">
+      <el-button
+          v-if="countProducts === 0"
+          size="small"
+          type="primary"
+          @click="handleAddToCart"
+      >
+        Добавить в корзину
+      </el-button>
+      <el-input-number
+          v-else
+          v-model="countProducts"
+          :min="1"
+          :max="10"
+          @change="handleUpdateProductCount"
+      />
+      <el-button class="category-product__favorite-button" @click="handleAddToFavorite">
+        <img class="category-product__favorite-icon" src="../../assets/icons/favorite-icon.svg" alt="favorite" /></el-button>
+    </el-row>
   </el-col>
 </template>
 
@@ -103,6 +123,13 @@ const handleAddToCart = async (): Promise<void> => {
     overflow: hidden;
     display: block;
     height: 310px;
+  }
+
+  &__favorite {
+    &-icon {
+     width: 24px;
+     height: 24px;
+    }
   }
 
   &__price {

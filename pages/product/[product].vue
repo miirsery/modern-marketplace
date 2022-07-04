@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import {useCartStore} from "~/store/cart";
 import {ElMessage} from "element-plus";
-import {productApi} from "~/api/product.api";
+import {productApi} from "~/api/Product.api";
 
 const token = Cookies.get('token')
 const route = useRoute()
