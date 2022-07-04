@@ -9,12 +9,7 @@ class Favorite extends AxiosService {
             data: payload
         })
     }
-    public getTotalCountProductInFavorite() {
-        return this.axiosCall({
-            method: 'get',
-            url: `/api/product/favorite/quantity-products/`,
-        })
-    }
+
     public getProductsInFavorite() {
         return this.axiosCall({
             method: 'get',
