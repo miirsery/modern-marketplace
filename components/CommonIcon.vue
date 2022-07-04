@@ -6,7 +6,7 @@ interface IIconComponentProps {
   svg: string
   color?: any
   size?: IconSizeType | number,
-  className: string
+  className?: string
 }
 
 const props = withDefaults(defineProps<IIconComponentProps>(), {

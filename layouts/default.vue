@@ -29,7 +29,6 @@ const toggleAuthModalVisible = (): void => {
 
 onMounted(async () => {
   await user.aboutMe()
-  await cart.getTotalProducts()
   await cart.getAllProducts()
   await favoriteStore.getProductsInFavorite()
 })

@@ -30,12 +30,6 @@ class Cart extends AxiosService {
             url: '/api/cart/update-calculations-cart/'
         })
     }
-    public getTotalProducts () {
-        return this.axiosCall({
-            method: 'get',
-            url: '/api/cart/total-count-products/'
-        })
-    }
 }
 
 export const cartApi = new Cart()

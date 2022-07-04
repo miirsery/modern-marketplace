@@ -69,7 +69,7 @@ const handleUpdateProductCount  = async (): Promise<void> => {
     new_count_products: countProducts.value
   })
 
-  await cartStore.getTotalProducts()
+  await cartStore.getAllProducts()
 }
 
 </script>
@@ -111,8 +111,11 @@ const handleUpdateProductCount  = async (): Promise<void> => {
       <el-button class="category-product__favorite-button" @click="handleAddToFavorite">
         <common-icon
             svg="favorite-icon"
-            class="category-product__favorite-icon"
-            :className="{'category-product__favorite-icon--in-cart': favoriteStore.hasFavoriteProduct(props.product.id)}"
+            :class="[{
+                'category-product__favorite-icon--in-cart': favoriteStore.hasFavoriteProduct(product.id)
+               },
+              'category-product__favorite-icon'
+             ]"
         />
       </el-button>
     </el-row>

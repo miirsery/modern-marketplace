@@ -8,6 +8,7 @@ export const useCartStore = defineStore('cart', {
     }),
     getters: {
         getAllProductsInCart: (state): any => state.products,
+        getCountProductsInCart: (state) => state.products.length,
         hasProduct: (state) => (productId) => state.products.some((product) => product.id === productId),
         isLoaded: (state) => state.products.length > 0
     },
@@ -21,6 +22,7 @@ export const useCartStore = defineStore('cart', {
         async getAllProducts () {
             const [error, data] = await cartApi.getAllProducts()
             this.products = data.products
+            this.count = data.products.length
         },
         async updateCountProductsInCart (count){
             this.count = count
@@ -28,9 +30,5 @@ export const useCartStore = defineStore('cart', {
         async updateCalculationsCart () {
             return await cartApi.updateCalculationsCart()
         },
-        async getTotalProducts () {
-            const [error, data] = await cartApi.getTotalProducts()
-            this.count = data.count_products_in_basket
-        }
     }
 })
