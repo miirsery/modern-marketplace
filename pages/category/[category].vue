@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import {categoriesApi} from "~/api/Categories.api";
-import {useCartStore} from "~/store/cart";
-const cartStore = useCartStore()
+
+import {useCategoryProducts} from "~/store/category-products";
+
 const category = useRoute()
-const products = ref([])
+const categoryProductsStore = useCategoryProducts()
+const products = ref<any>([])
 
 const getCategoryProducts = async () => {
-  const [error, data] = await categoriesApi.getCategoryProducts(category.params.category)
-  products.value = data
+  await categoryProductsStore.getCategoryProducts(category.params.category)
+  products.value = categoryProductsStore.getAllCategoryProducts
 }
 onMounted(() => {
   getCategoryProducts()
@@ -24,7 +25,7 @@ onMounted(() => {
         <category-filter />
       </el-col>
       <el-col :span="20">
-        <el-row v-if="cartStore.isLoaded">
+        <el-row v-if="categoryProductsStore.isLoaded">
           <category-product
             v-for="product in products"
             :key="products.title"

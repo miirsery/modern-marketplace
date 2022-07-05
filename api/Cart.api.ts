@@ -1,17 +1,9 @@
 import {AxiosService} from "~/api/AxiosService";
 
 class Cart extends AxiosService {
-    public addToCart(payload) {
+    public addToCart(payload, method) {
         return this.axiosCall({
-            method: 'post',
-            url: '/api/cart/add-product-in-cart/',
-            data: payload
-        })
-    }
-
-    public updateProductCount(payload) {
-        return this.axiosCall({
-            method: 'patch',
+            method: method,
             url: '/api/cart/add-product-in-cart/',
             data: payload
         })
@@ -21,13 +13,6 @@ class Cart extends AxiosService {
         return this.axiosCall({
             method: 'get',
             url: '/api/cart/list-products-cart/'
-        })
-    }
-
-    public updateCalculationsCart () {
-        return this.axiosCall({
-            method: 'get',
-            url: '/api/cart/update-calculations-cart/'
         })
     }
 }

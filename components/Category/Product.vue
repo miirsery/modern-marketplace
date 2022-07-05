@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import {ElMessage} from "element-plus";
-import {productApi} from "~/api/Product.api";
 import {useFavoriteStore} from "~/store/favorite";
 import {useCartStore} from "~/store/cart";
 
@@ -15,11 +14,19 @@ const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
 
 const countProducts = ref(0)
-const productsInCart = cartStore.getAllProductsInCart
+let finedItemIdInCart = null
 
-countProducts.value = cartStore.hasProduct(3)
-    ? cartStore.products.find((item) => item.id === 3)?.count_product
-    : 0
+watch(
+    () => cartStore.getAllProductsInCart,
+    (newVal, _) => {
+      const finedItemId = newVal.find((item) => item.product_name.id === props.product.id)?.product_name.id
+      const finedItemCount = newVal.find((item) => item.product_name.id === props.product.id)?.count_product
+      finedItemIdInCart = newVal.find((item) => item.product_name.id === props.product.id)?.id
+
+      countProducts.value = finedItemId !== undefined ? finedItemCount : 0
+    }
+)
+
 
 const openSuccessMessage = (): void => {
   ElMessage({
@@ -28,48 +35,42 @@ const openSuccessMessage = (): void => {
   })
 }
 
-const updateCountProductsInCart = async (count: number): Promise<void> => {
-  await cartStore.updateCountProductsInCart(count)
-}
-
-const updateCountCurrentProductInCart = async (): Promise<void> => {
-  await productApi.updateCountCurrentProductInCart(
-      props.product.id, countProducts.value
-  )
-}
-
 const handleAddToCart = async (): Promise<void> => {
   if (countProducts.value === 0) {
     countProducts.value++
   }
 
   const [_, data] = await cartStore.addToCart({
-    product_id: props.product.id.toString(),
-    count_product: countProducts.value.toString()
-  })
+    product_id: props.product.id,
+    count_product: countProducts.value
+  }, 'post')
 
   if (data.error) {
     ElMessage.error(data.error)
   } else {
     openSuccessMessage()
-    await cartStore.updateCalculationsCart()
-    await updateCountProductsInCart(data.count_products)
+    await cartStore.updateCountProductsInCart(data.count_products_in_basket)
   }
 }
+
+const handleUpdateProductCount = async (): Promise<void> => {
+  const [_, data] = await cartStore.addToCart({
+    product_id: finedItemIdInCart,
+    new_count_products: countProducts.value
+  }, 'patch')
+
+  if (data.error) {
+    ElMessage.error(data.error)
+  } else {
+    await cartStore.updateCountProductsInCart(data.count_products_in_basket)
+  }
+}
+
 const handleAddToFavorite = async (): Promise<void> => {
   await favoriteStore.addToFavorite({
     product_id: props.product.id
   })
   await favoriteStore.getProductsInFavorite()
-}
-
-const handleUpdateProductCount  = async (): Promise<void> => {
-  await cartStore.updateProductCount({
-    product_id: props.product.id,
-    new_count_products: countProducts.value
-  })
-
-  await cartStore.getAllProducts()
 }
 
 </script>

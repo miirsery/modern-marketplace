@@ -110,8 +110,13 @@ onMounted(() => {
          </el-col>
          <el-col :span="4">
            <div class="header__icon">
-             <nuxt-link to="/">
-               <el-badge :value="getTotalCountProductInFavorite" type="primary">
+             <nuxt-link to="/favorite">
+               <el-badge
+                   :value="getTotalCountProductInFavorite >= 1
+                     ? getTotalCountProductInFavorite
+                     : undefined"
+                   type="primary"
+               >
                  <common-icon svg="favorite-icon" className="header__icon" />
                </el-badge>
              </nuxt-link>
@@ -120,7 +125,11 @@ onMounted(() => {
          <el-col :span="4">
            <div class="header__icon">
              <nuxt-link to="/cart">
-               <el-badge :value="getTotalCountProductInCart" type="primary">
+               <el-badge
+                   :value="getTotalCountProductInCart >= 1
+                       ? getTotalCountProductInCart
+                       : undefined"
+                   type="primary">
                  <common-icon svg="cart-icon" className="header__icon" />
                </el-badge>
              </nuxt-link>

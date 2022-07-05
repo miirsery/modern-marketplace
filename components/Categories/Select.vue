@@ -15,7 +15,6 @@ const emit = defineEmits([
 ])
 
 const handleCloseCategories = () => {
-  console.log('emit')
   emit('closeCategories')
 }
 
