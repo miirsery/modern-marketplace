@@ -5,7 +5,6 @@ from django.db.models.signals import (
     m2m_changed,
 )
 from django.dispatch import receiver
-
 from .services.basket_calculator import BasketCalculator
 
 

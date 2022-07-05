@@ -97,14 +97,3 @@ class FavoriteProductApiList(generics.ListAPIView):
 
     def get_queryset(self):
         return self.request.user.favorite_products.all()
-
-
-class GetQuantityProductFavoriteApi(APIView):
-    """
-    Получение количества товаров в избранном.
-    """
-    def get(self, request, *args, **kwargs):
-        return Response({
-            "count_favorite_products":
-                self.request.user.favorite_products.all().count()
-        })

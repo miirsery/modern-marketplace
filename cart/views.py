@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
 from .models import (
     Cart,
     CartProduct,
@@ -12,6 +13,7 @@ from .serializers import (
     DeleteProductFromCartSerializer,
 )
 from .services.basket_calculator import BasketCalculator
+from .services.basket_controller import BasketController
 
 
 class CartAddProductApi(APIView):
@@ -100,16 +102,31 @@ class CartApiList(APIView):
         return Response(serializer.data)
 
 
-class GetQuantityProductCartApi(APIView):
+class UpdateQtyProductNotDirectlyCartApi(APIView):
     """
-    Получение количества товаров в карзине.
+    Изменение количества товара в корзине
+    по если товар изменяется не на прямую из корзины.
     """
-    serializer_class = DeleteProductFromCartSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         user = request.user
+        product = request.data.get('product_id')
+        try:
+            prod_obj = Product.objects.get(id=product)
+        except ObjectDoesNotExist:
+            return Response(
+                {'error': True}
+            )
         cart = Cart.objects.filter(user_name=user).first()
+        new_count_products = request.data.get('new_count_products')
+        basket_controller = BasketController()
+        basket_controller.search_product_in_cart(
+            cart, prod_obj, new_count_products
+        )
+        basket_calculator = BasketCalculator()
+        basket_calculator.basket_calculation(cart)
+        cart.save()
         return Response(
             {"count_products_in_basket": cart.total_products}
         )
