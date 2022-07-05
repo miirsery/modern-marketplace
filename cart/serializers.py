@@ -29,7 +29,7 @@ class ProductInBasket(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = (
-            'title', 'description',
+            'id', 'title', 'description',
             'price_now', 'price_old', 'quantity',
             'discounted_price', 'guarantee',
             'photo', 'colors',
