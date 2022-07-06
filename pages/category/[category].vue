@@ -10,8 +10,8 @@ const getCategoryProducts = async () => {
   await categoryProductsStore.getCategoryProducts(category.params.category)
   products.value = categoryProductsStore.getAllCategoryProducts
 }
-onMounted(() => {
-  getCategoryProducts()
+onMounted(async () => {
+  await getCategoryProducts()
 })
 
 </script>

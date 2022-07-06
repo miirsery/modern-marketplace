@@ -14,16 +14,19 @@ const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
 
 const countProducts = ref(0)
-let finedItemIdInCart = null
+const finedItemIdInCart = ref(null)
 
 watch(
     () => cartStore.getAllProductsInCart,
     (newVal, _) => {
-      const finedItemId = newVal.find((item) => item.product_name.id === props.product.id)?.product_name.id
-      const finedItemCount = newVal.find((item) => item.product_name.id === props.product.id)?.count_product
-      finedItemIdInCart = newVal.find((item) => item.product_name.id === props.product.id)?.id
+      if (newVal !== undefined) {
+        const { product_name, count_product, id } = newVal.find((item) => item.product_name.id === props.product.id)
+        const finedItemId = product_name.id
+        const finedItemCount = count_product
+        finedItemIdInCart.value = id
 
-      countProducts.value = finedItemId !== undefined ? finedItemCount : 0
+        countProducts.value = finedItemId !== undefined ? finedItemCount : 0
+      }
     }
 )
 
@@ -55,15 +58,11 @@ const handleAddToCart = async (): Promise<void> => {
 
 const handleUpdateProductCount = async (): Promise<void> => {
   const [_, data] = await cartStore.addToCart({
-    product_id: finedItemIdInCart,
+    product_id: finedItemIdInCart.value,
     new_count_products: countProducts.value
   }, 'patch')
 
-  if (data.error) {
-    ElMessage.error(data.error)
-  } else {
-    await cartStore.updateCountProductsInCart(data.count_products_in_basket)
-  }
+  await cartStore.updateCountProductsInCart(data.count_products_in_basket)
 }
 
 const handleAddToFavorite = async (): Promise<void> => {
@@ -72,6 +71,13 @@ const handleAddToFavorite = async (): Promise<void> => {
   })
   await favoriteStore.getProductsInFavorite()
 }
+
+onMounted(async () => {
+  if (await cartStore.getAllProductsInCart !== undefined && cartStore.getAllProductsInCart.lenght > 0) {
+    console.log(cartStore.getAllProductsInCart)
+    countProducts.value = cartStore.getAllProductsInCart.find((item) => item.product_name.id === props.product.id).count_product
+  }
+})
 
 </script>
 <template>

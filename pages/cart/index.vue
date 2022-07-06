@@ -2,22 +2,15 @@
 import {useCartStore} from "~/store/cart";
 
 const cartStore = useCartStore()
-const cartProducts = ref([])
+const cartProducts = computed(() => (cartStore.getAllProductsInCart))
 
-const getAllProduct = async () => {
-  const [error, data] = await cartStore.getAllProducts()
-  cartProducts.value = data[0].products
-}
-onMounted(() => {
-  getAllProduct()
-})
 </script>
 <template>
   <div>
     Cart
     <el-row>
-      <el-col :span="20">
-        <lazy-cart-product
+      <el-col :span="20" v-if="cartStore.isLoaded">
+        <cart-product
             v-for="product in cartProducts"
             :key="product.id"
             :product="product"
