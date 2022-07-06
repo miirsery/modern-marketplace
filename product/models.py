@@ -105,7 +105,10 @@ class Product(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        self.price_now = self.price_old - self.discounted_price
+        if self.discounted_price:
+            self.price_now = self.price_old - self.discounted_price
+        else:
+            self.price_now = self.price_old
         super().save(*args, **kwargs)
 
     class Meta:

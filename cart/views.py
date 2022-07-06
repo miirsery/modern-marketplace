@@ -94,12 +94,14 @@ class CartApiList(APIView):
     """
     Получение продуктов находящихся в корзине.
     """
+    serializer_class = ProductBasketSerializer
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         cart = Cart.objects.get(user_name=f"{self.request.user.id}")
-        serializer = ProductBasketSerializer(cart)
-        return Response(serializer.data)
+        return Response(
+            ProductBasketSerializer(cart, context={"request": request}).data,
+        )
 
 
 class UpdateQtyProductNotDirectlyCartApi(APIView):

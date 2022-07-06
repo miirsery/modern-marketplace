@@ -38,7 +38,7 @@ class ProductInBasket(serializers.ModelSerializer):
 
 
 class CartProductSerializer(serializers.ModelSerializer):
-    product_name = ProductInBasket()
+    product_name = ProductInBasket(required=False)
 
     class Meta:
         model = CartProduct
