@@ -31,6 +31,17 @@ class Auth extends AxiosService {
             url: '/api/user/me'
         })
     }
+
+    public changeAvatar(payload, id) {
+        return this.axiosCall({
+            method: 'put',
+            url: `/api/user/update/${id}/`,
+            data: payload,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
 }
 
 export const authApi = new Auth()

@@ -13,15 +13,18 @@ const finedItemInCart = computed(() => (
 ))
 
 const countProducts = ref(finedItemInCart.value.count_product)
+
 const handleUpdateProductCount = async (): Promise<void> => {
   if (finedItemInCart !== undefined) {
-    const [_, data] = await cartStore.addToCart({
+    await cartStore.updateCount({
       product_id: finedItemInCart.value.id,
       new_count_products: countProducts.value
-    }, 'patch')
-
-    await cartStore.updateCountProductsInCart(data.count_products_in_basket)
+    })
   }
+}
+
+const removeProduct = async (): Promise<void> => {
+  await cartStore.removeProduct(props.product.id)
 }
 
 </script>
@@ -39,7 +42,7 @@ const handleUpdateProductCount = async (): Promise<void> => {
       <el-button class="cart-product__button">
         В избранное
       </el-button> |
-      <el-button class="cart-product__button">
+      <el-button class="cart-product__button" @click="removeProduct">
         Удалить
       </el-button>
     </el-col>
@@ -56,7 +59,7 @@ const handleUpdateProductCount = async (): Promise<void> => {
       <el-input-number
           v-model="countProducts"
           :min="1"
-          :max="10"
+          :max="product['product_name'].quantity"
           @change="handleUpdateProductCount"
       />
     </el-col>

@@ -8,7 +8,7 @@ export const useCategoryProducts = defineStore('categoryProducts', {
     }),
     getters: {
         getAllCategoryProducts: (state): any => state.products,
-        getCountProductsInCart: (state) => state.products.length,
+        getProduct: (state) => (productId) => state.products.find((item) => item.product_name.id === productId),
         hasProduct: (state) => (productId) => state.products.some((product) => product.id === productId),
         isLoaded: (state) => state.products.length > 0,
     },

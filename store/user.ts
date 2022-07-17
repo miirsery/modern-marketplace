@@ -27,6 +27,10 @@ export const useUserStore = defineStore('user', {
         async aboutMe() {
             const [_, data] = await authApi.aboutUser()
             this.user = data
+        },
+        async changeAvatar(payload, id) {
+            const [_, data] = await authApi.changeAvatar(payload, id)
+            this.user = data
         }
     }
 })

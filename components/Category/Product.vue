@@ -12,15 +12,15 @@ const props = defineProps({
 
 const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
-
 const countProducts = ref(0)
-const finedItemIdInCart = ref(null)
+const finedItemIdInCart = ref(0)
 
 watch(
     () => cartStore.getAllProductsInCart,
     (newVal, _) => {
-      if (newVal !== undefined) {
+      if (newVal !== undefined && newVal.length !== 0) {
         const { product_name, count_product, id } = newVal.find((item) => item.product_name.id === props.product.id)
+        console.log(id)
         const finedItemId = product_name.id
         const finedItemCount = count_product
         finedItemIdInCart.value = id
@@ -46,7 +46,7 @@ const handleAddToCart = async (): Promise<void> => {
   const [_, data] = await cartStore.addToCart({
     product_id: props.product.id,
     count_product: countProducts.value
-  }, 'post')
+  })
 
   if (data.error) {
     ElMessage.error(data.error)
@@ -57,10 +57,10 @@ const handleAddToCart = async (): Promise<void> => {
 }
 
 const handleUpdateProductCount = async (): Promise<void> => {
-  const [_, data] = await cartStore.addToCart({
-    product_id: finedItemIdInCart.value,
+  const [_, data] = await cartStore.updateCount({
+    product_id: props.product.id,
     new_count_products: countProducts.value
-  }, 'patch')
+  })
 
   await cartStore.updateCountProductsInCart(data.count_products_in_basket)
 }
@@ -72,13 +72,16 @@ const handleAddToFavorite = async (): Promise<void> => {
   await favoriteStore.getProductsInFavorite()
 }
 
-onMounted(async () => {
-  if (await cartStore.getAllProductsInCart !== undefined && cartStore.getAllProductsInCart.lenght > 0) {
-    console.log(cartStore.getAllProductsInCart)
-    countProducts.value = cartStore.getAllProductsInCart.find((item) => item.product_name.id === props.product.id).count_product
-  }
-})
+onMounted(() => {
+  const data = computed(() => cartStore.getProduct(props.product.id))
 
+  setTimeout(() => {
+    if (data.value) {
+      countProducts.value = data.value['count_product']
+      finedItemIdInCart.value = data.value['id']
+    }
+  }, 300)
+})
 </script>
 <template>
   <el-col :span="6" class="category-product">
@@ -112,7 +115,7 @@ onMounted(async () => {
           v-else
           v-model="countProducts"
           :min="1"
-          :max="10"
+          :max="product.quantity"
           @change="handleUpdateProductCount"
       />
       <el-button class="category-product__favorite-button" @click="handleAddToFavorite">

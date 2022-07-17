@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { favoriteApi } from "~/api/Favorite.api";
-export const useFavoriteStore = defineStore('favorite', {
+export const useFavoriteStore = defineStore('Favorite', {
     state: () => ({
         count: 0,
         products: []
     }),
     getters: {
+        getAllProducts: (state) => state.products,
         hasFavoriteProduct: (state) => (productId) => state.products.some((product) => product.id === productId),
     },
     actions: {
