@@ -113,9 +113,9 @@ class UpdateQtyProductNotDirectlyCartApi(APIView):
 
     def patch(self, request, *args, **kwargs):
         user = request.user
-        product = request.data.get('product_id')
+        product_id = request.data.get('product_id')
         try:
-            prod_obj = Product.objects.get(id=product)
+            prod_obj = Product.objects.get(id=product_id)
         except ObjectDoesNotExist:
             return Response(
                 {'error': True}
@@ -124,7 +124,7 @@ class UpdateQtyProductNotDirectlyCartApi(APIView):
         new_count_products = request.data.get('new_count_products')
         basket_controller = BasketController()
         basket_controller.search_product_in_cart(
-            cart, prod_obj, new_count_products
+            cart, prod_obj.id, new_count_products
         )
         basket_calculator = BasketCalculator()
         basket_calculator.basket_calculation(cart)
